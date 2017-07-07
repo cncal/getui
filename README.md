@@ -23,7 +23,7 @@ Cncal\Getui\GetuiServiceProvider::class,
 
 * 添加 Facade 至 `config/app` 的 `aliases`：
 ```php
-Cncal\Getui\Facades\Getui::class,
+'Getui' => Cncal\Getui\Facades\Getui::class,
 ```
 
 * 发布配置文件 `config/getui.php`：
