@@ -1,10 +1,8 @@
 # A getui sdk package for laravel
 
-<p align="left">
-[![Total Downloads](https://poser.pugx.org/cncal/getui/downloads)](https://packagist.org/packages/cncal/getui)
 [![Latest Stable Version](https://poser.pugx.org/cncal/getui/v/stable)](https://packagist.org/packages/cncal/getui)
+[![Total Downloads](https://poser.pugx.org/cncal/getui/downloads)](https://packagist.org/packages/cncal/getui)
 [![License](https://poser.pugx.org/cncal/getui/license)](https://packagist.org/packages/cncal/getui)
-</p>
 
 此扩展包仍在开发中，对于预配项及对模板的支持在持续优化中，如有不足，请在 [Issues](https://github.com/cncal/getui/issues) 中告知，感谢支持！
 
