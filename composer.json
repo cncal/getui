@@ -1,0 +1,14 @@
+{
+    "name": "cncal/getui",
+    "description": "A getui sdk package for laravel.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Liu Calvin",
+            "email": "flycalvin@qq.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
