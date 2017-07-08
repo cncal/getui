@@ -143,9 +143,14 @@ Getui::pushMessageToApp($data);
            'template_data' => [
                'title' => 'Laravel Getui',
                'text' => 'May you succeed.',
+               'transmission_type' => 1,
+               'transmission_content' => 'It is transmission content',
            ],
            'cid' => 'your cid',
        ];
        ```
+    * Tips：
+       * 消息展示开始时间与消息展示结束时间必须同时设置（格式 yyyy-MM-dd HH:mm:ss），否则无效；
+    
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)

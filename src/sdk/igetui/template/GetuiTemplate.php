@@ -89,7 +89,7 @@ class GetuiTemplate
 
         if(isset($begin_time) && isset($end_time))
         {
-            $template->set_duration(date_format($begin_time, 'Y-m-d H:i:s'), date_format($end_time, 'Y-m-d H:i:s'));
+            $template->set_duration(date_format(date_create($begin_time), 'Y-m-d H:i:s'), date_format(date_create($end_time), 'Y-m-d H:i:s'));
         }
 
         return $template;
@@ -115,7 +115,7 @@ class GetuiTemplate
 
         if(isset($begin_time) && isset($end_time))
         {
-            $template->set_duration(date_format($begin_time, 'Y-m-d H:i:s'), date_format($end_time, 'Y-m-d H:i:s'));
+            $template->set_duration(date_format(date_create($begin_time), 'Y-m-d H:i:s'), date_format(date_create($end_time), 'Y-m-d H:i:s'));
         }
 
         return $template;
@@ -156,7 +156,7 @@ class GetuiTemplate
 
         if(isset($begin_time) && isset($end_time))
         {
-            $template->set_duration(date_format($begin_time, 'Y-m-d H:i:s'), date_format($end_time, 'Y-m-d H:i:s'));
+            $template->set_duration(date_format(date_create($begin_time), 'Y-m-d H:i:s'), date_format(date_create($end_time), 'Y-m-d H:i:s'));
         }
 
         return $template;
