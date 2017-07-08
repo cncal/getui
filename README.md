@@ -34,20 +34,20 @@ $ php artisan vendor:publish --provider="Cncal\Getui\GetuiServiceProvider"
 ## 配置
 在 `config/getui.php` 中配置推送信息：
 ```php
-    // 个推基础信息，在平台新建应用的时候生成
-    'basic_info' => [
-        'host' => "http://sdk.open.api.igexin.com/apiex.htm",
-        'app_id' => "",
-        'app_key' => "",
-        'master_secret' => "",
-    ],
+// 个推基础信息，在平台新建应用的时候生成
+'basic_info' => [
+    'host' => "http://sdk.open.api.igexin.com/apiex.htm",
+    'app_id' => "",
+    'app_key' => "",
+    'master_secret' => "",
+],
 
-    // 推送消息的基础设置
-    'push_info' => [
-        'is_offline' => true, // 是否发送离线消息
-        'offline_expire_time' => 3600*1000*2, // 离线消息过期时间，单位为毫秒
-        'network_type' => 0 // 是否根据网络环境推送消息, 0为不限制推送, 1为wifi推送, 2为4G/3G/2G
-    ],
+// 推送消息的基础设置
+'push_info' => [
+    'is_offline' => true, // 是否发送离线消息
+    'offline_expire_time' => 3600*1000*2, // 离线消息过期时间，单位为毫秒
+    'network_type' => 0 // 是否根据网络环境推送消息, 0为不限制推送, 1为wifi推送, 2为4G/3G/2G
+],
 ```
 
 ## 使用
@@ -81,34 +81,56 @@ Getui::pushMessageToApp($data);
     * `template_type`
        * 1: [点击通知打开应用模板](http://docs.getui.com/server/php/template/#1)
        * 2: [点击通知打开网页模板](http://docs.getui.com/server/php/template/#2)
-       * 3: [点击通知弹窗下载模板](http://docs.getui.com/server/php/template/#3)（暂不支持）
+       * 3: [点击通知弹窗下载模板](http://docs.getui.com/server/php/template/#3)
        * 4: [透传消息模版](http://docs.getui.com/server/php/template/#4)（暂不支持）
        
     * `template_data`
        * 当 `'template_type' = 1` 时：    
-             
+       
         | 字段 | 长度 | 是否必填 | 说明 | 
-        | ----------- | :---: | :---: | :---------: |
+        | ----------- | :--- | :--- | :--------- |
         | title | 40中/英字符 | 是 | 通知标题 |
         | text | 600中/英字符 | 是 | 通知内容 |
-        | transmission_type |  | 是 | 收到消息是否立即启动应用：1为立即启动，2则广播等待客户端自启动 |
+        | transmission_type |  | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
         | transmission_content | 2048中/英字符 | 是 | 透传内容，不支持转义字符 |
-        | is_ring |  | 否 | 收到通知是否响铃，默认响铃 |
-        | is_vibrate |  | 否 | 收到通知是否振动，默认振动 |
-        | is_clearable |  | 否 | 通知是否可清除，默认可清除 |
+        | is_ring |  | 否 | 是否响铃，默认响铃 |
+        | is_vibrate |  | 否 | 是否振动，默认振动 |
+        | is_clearable |  | 否 | 是否可清除，默认可清除 |
         | begin_time |  | 否 | 消息展示开始时间 |
         | end_time |  | 否 | 消息展示结束时间 |
       
        * 当 `'template_type' = 2` 时：  
-       
+         
         | 字段 | 长度 | 是否必填 | 说明 | 
-        | ----------- | :---: | :---: | :---------: |
+        | ----------- | :--- | :--- | :--------- |
         | title | 40中/英字符 | 是 | 通知标题 |
         | text | 600中/英字符 | 是 | 通知内容 |
         | url | 200中/英字符 | 是 | 点击通知后打开的网页地址 |
-        | is_ring |  | 否 | 收到通知是否响铃，默认响铃 |
-        | is_vibrate |  | 否 | 收到通知是否振动，默认振动 |
-        | is_clearable |  | 否 | 通知是否可清除，默认可清除 |
+        | is_ring |  | 否 | 是否响铃，默认响铃 |
+        | is_vibrate |  | 否 | 是否振动，默认振动 |
+        | is_clearable |  | 否 | 是否可清除，默认可清除 |
+        | begin_time |  | 否 | 消息展示开始时间 |
+        | end_time |  | 否 | 消息展示结束时间 |
+        
+        * 当 `'template_type' = 3` 时：  
+                 
+        | 字段 | 长度 | 是否必填 | 说明 | 
+        | ----------- | :--- | :--- | :--------- |
+        | title | 40中/英字符 | 是 | 通知栏标题 |
+        | text | 600中/英字符 | 是 | 通知栏内容 |
+        | pop_title | 40中/英字符 | 是 | 弹出框标题 |
+        | pop_content | 600中/英字符 | 是 | 弹出框内容 |
+        | pop_image | 200中/英字符 | 是 | 弹出框图标 |
+        | pop_button_left | 4中/英字符 | 是 | 弹出框左边按钮名称 |
+        | pop_button_right | 4中/英字符 | 是 | 弹出框右边按钮名称 |
+        | load_icon | 40中/英字符 | 是 | 下载图标: 本地图标[file://]， 网络图标[url] |
+        | load_title | 40中/英字符 | 是 | 下载标题 |
+        | load_url | 200中/英字符 | 是 | 下载地址 |
+        | is_auto_install |  | 否 | 是否自动安装（默认否） |
+        | is_actived |  | 否 | 安装完成后是否自动启动应用程序（默认否）|
+        | is_ring |  | 否 | 是否响铃，默认响铃 |
+        | is_vibrate |  | 否 | 是否振动，默认振动 |
+        | is_clearable |  | 否 | 是否可清除，默认可清除 |
         | begin_time |  | 否 | 消息展示开始时间 |
         | end_time |  | 否 | 消息展示结束时间 |
     

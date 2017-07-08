@@ -109,9 +109,9 @@ class GetuiTemplate
         $template->set_title($title);
         $template->set_text($text);
         $template->set_url($url);
-        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : 'GT_ON');
-        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : 'GT_ON');
-        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : 'GT_ON');
+        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : true);
+        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : true);
+        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : true);
 
         if(isset($begin_time) && isset($end_time))
         {
@@ -126,29 +126,39 @@ class GetuiTemplate
      */
     private function IGtNotyPopLoadTemplateDemo()
     {
+        // 解析模板数据
+        extract($this->template_data);
+
         $template =  new IGtNotyPopLoadTemplate();
-        $template ->set_appId($this->app_id);   //应用appid
-        $template ->set_appkey($this->app_key); //应用appkey
-        //通知栏
-        $template ->set_notyTitle("个推");                 //通知栏标题
-        $template ->set_notyContent("个推最新版点击下载"); //通知栏内容
-        $template ->set_notyIcon("");                      //通知栏logo
-        $template ->set_isBelled(true);                    //是否响铃
-        $template ->set_isVibrationed(true);               //是否震动
-        $template ->set_isCleared(true);                   //通知栏是否可清除
-        //弹框
-        $template ->set_popTitle("弹框标题");   //弹框标题
-        $template ->set_popContent("弹框内容"); //弹框内容
-        $template ->set_popImage("");           //弹框图片
-        $template ->set_popButton1("下载");     //左键
-        $template ->set_popButton2("取消");     //右键
-        //下载
-        $template ->set_loadIcon("");           //弹框图片
-        $template ->set_loadTitle("地震速报下载");
-        $template ->set_loadUrl("http://dizhensubao.igexin.com/dl/com.ceic.apk");
-        $template ->set_isAutoInstall(false);
-        $template ->set_isActived(true);
-        //$template->set_duration(BEGINTIME,ENDTIME); //设置ANDROID客户端在此时间区间内展示消息
+        $template->set_appId($this->app_id);
+        $template->set_appkey($this->app_key);
+
+        // 通知栏
+        $template->set_notyTitle($title);
+        $template->set_notyContent($text);
+        $template->set_isBelled(isset($is_ring) ? (boolean)$is_ring : true);
+        $template->set_isVibrationed(isset($is_vibrate) ? (boolean)$is_vibrate : true);
+        $template->set_isCleared(isset($is_clearable) ? (boolean)$is_clearable : true);
+
+        // 弹框
+        $template->set_popTitle($pop_title);
+        $template->set_popContent($pop_content);
+        $template->set_popImage($pop_image);
+        $template->set_popButton1($pop_button_left);
+        $template->set_popButton2($pop_button_right);
+
+        // 下载
+        $template->set_loadIcon($load_icon);
+        $template->set_loadTitle($load_title);
+        $template->set_loadUrl("$load_url");
+        $template->set_isAutoInstall(isset($is_auto_install) ? (boolean)$is_auto_install : false);
+        $template->set_isActived(isset($is_actived) ? (boolean)$is_actived : false);
+
+        if(isset($begin_time) && isset($end_time))
+        {
+            $template->set_duration(date_format($begin_time, 'Y-m-d H:i:s'), date_format($end_time, 'Y-m-d H:i:s'));
+        }
+
         return $template;
     }
 
