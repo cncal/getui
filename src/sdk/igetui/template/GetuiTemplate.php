@@ -3,6 +3,7 @@ namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\IGtAPNPayload;
 use Cncal\Getui\Sdk\IGetui\Msg\DictionaryAlertMsg;
+use Cncal\Getui\Sdk\IGetui\Msg\SimpleAlertMsg;
 
 class GetuiTemplate
 {
@@ -167,33 +168,49 @@ class GetuiTemplate
      */
     private function IGtTransmissionTemplate()
     {
+        // 解析模板数据
+        extract($this->template_data);
+
         $template =  new IGtTransmissionTemplate();
         $template->set_appId($this->app_id);
         $template->set_appkey($this->app_key);
-        $template->set_transmissionType(1);   // 收到消息是否立即启动应用，1为立即启动，2则广播等待客户端自启动
-        $template->set_transmissionContent("测试离线ddd");   // 透传内容，不支持转义字符
+        $template->set_transmissionType((int)$transmission_type);
+        $template->set_transmissionContent($transmission_content);
 
-        // APN高级推送
-        $apn = new IGtAPNPayload();
-        $alertmsg = new DictionaryAlertMsg();
-        $alertmsg->body = "body";
-        $alertmsg->actionLocKey = "ActionLockey";
-        $alertmsg->locKey = "LocKey";
-        $alertmsg->locArgs = array("locargs");
-        $alertmsg->launchImage = "launchimage";
+        if(isset($is_ios) && (bool)$is_ios)
+        {
+            // APN高级推送
+            $apn = new IGtAPNPayload();
 
-        // IOS8.2 支持
-        $alertmsg->title = "Title";
-        $alertmsg->titleLocKey = "TitleLocKey";
-        $alertmsg->titleLocArgs = array("TitleLocArg");
+            if(isset($is_content_available) &&(bool)$is_content_available)
+            {
+                $apn->contentAvailable = 1;
+            } else {
+                $apn->contentAvailable = 0;
 
-        $apn->alertMsg = $alertmsg;
-        $apn->badge = 7;   // 应用icon上显示的数字
-        $apn->sound = "";   // 通知铃声文件名
-        $apn->add_customMsg("payload","payload");  // 增加自定义的数据
-        $apn->contentAvailable = 1;
-        $apn->category = "ACTIONABLE";  // 在客户端通知栏触发特定的action和button显示
-        $template->set_apnInfo($apn);
+                $alertmsg = new DictionaryAlertMsg();
+                $alertmsg->title = $title;
+                $alertmsg->body = $text;
+                $apn->alertMsg = $alertmsg;
+            }
+
+            if(isset($badge))
+            {
+                $apn->badge = (int)$badge;
+            }
+
+            if(isset($sound))
+            {
+                $apn->sound = $sound;
+            }
+
+            if(isset($custom_msg))
+            {
+                $apn->add_customMsg($custom_msg);
+            }
+
+            $template->set_apnInfo($apn);
+        }
 
         return $template;
     }

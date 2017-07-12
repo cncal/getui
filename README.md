@@ -82,57 +82,72 @@ Getui::pushMessageToApp($data);
        * 1: [点击通知打开应用模板](http://docs.getui.com/server/php/template/#1)
        * 2: [点击通知打开网页模板](http://docs.getui.com/server/php/template/#2)
        * 3: [点击通知弹窗下载模板](http://docs.getui.com/server/php/template/#3)
-       * 4: [透传消息模版](http://docs.getui.com/server/php/template/#4)（暂不支持）
+       * 4: [透传消息模版](http://docs.getui.com/server/php/template/#4)
        
     * `template_data`
        * 当 `'template_type' = 1` 时：    
        
-        | 字段 | 长度 | 是否必填 | 说明 | 
+        | 字段 | 类型 | 是否必填 | 说明 | 
         | ----------- | :--- | :--- | :--------- |
-        | title | 40中/英字符 | 是 | 通知标题 |
-        | text | 600中/英字符 | 是 | 通知内容 |
-        | transmission_type |  | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
-        | transmission_content | 2048中/英字符 | 是 | 透传内容，不支持转义字符 |
-        | is_ring |  | 否 | 是否响铃，默认响铃 |
-        | is_vibrate |  | 否 | 是否振动，默认振动 |
-        | is_clearable |  | 否 | 是否可清除，默认可清除 |
-        | begin_time |  | 否 | 消息展示开始时间 |
-        | end_time |  | 否 | 消息展示结束时间 |
+        | title | string(40) | 是 | 通知标题 |
+        | text | string(600) | 是 | 通知内容 |
+        | transmission_type | enum | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
+        | transmission_content | string(2048) | 是 | 透传内容，不支持转义字符 |
+        | is_ring | boolean | 否 | 是否响铃，默认响铃 |
+        | is_vibrate | boolean | 否 | 是否振动，默认振动 |
+        | is_clearable | boolean | 否 | 是否可清除，默认可清除 |
+        | begin_time | timestamp | 否 | 消息展示开始时间 |
+        | end_time | timestamp | 否 | 消息展示结束时间 |
       
        * 当 `'template_type' = 2` 时：  
          
-        | 字段 | 长度 | 是否必填 | 说明 | 
+        | 字段 | 类型 | 是否必填 | 说明 | 
         | ----------- | :--- | :--- | :--------- |
-        | title | 40中/英字符 | 是 | 通知标题 |
-        | text | 600中/英字符 | 是 | 通知内容 |
-        | url | 200中/英字符 | 是 | 点击通知后打开的网页地址 |
-        | is_ring |  | 否 | 是否响铃，默认响铃 |
-        | is_vibrate |  | 否 | 是否振动，默认振动 |
-        | is_clearable |  | 否 | 是否可清除，默认可清除 |
-        | begin_time |  | 否 | 消息展示开始时间 |
-        | end_time |  | 否 | 消息展示结束时间 |
+        | title | string(40) | 是 | 通知标题 |
+        | text | string(600) | 是 | 通知内容 |
+        | url | string(200) | 是 | 点击通知后打开的网页地址 |
+        | is_ring | boolean | 否 | 是否响铃，默认响铃 |
+        | is_vibrate | boolean | 否 | 是否振动，默认振动 |
+        | is_clearable | boolean | 否 | 是否可清除，默认可清除 |
+        | begin_time | timestamp | 否 | 消息展示开始时间 |
+        | end_time | timestamp | 否 | 消息展示结束时间 |
         
         * 当 `'template_type' = 3` 时：  
                  
-        | 字段 | 长度 | 是否必填 | 说明 | 
+        | 字段 | 类型 | 是否必填 | 说明 | 
         | ----------- | :--- | :--- | :--------- |
-        | title | 40中/英字符 | 是 | 通知栏标题 |
-        | text | 600中/英字符 | 是 | 通知栏内容 |
-        | pop_title | 40中/英字符 | 是 | 弹出框标题 |
-        | pop_content | 600中/英字符 | 是 | 弹出框内容 |
-        | pop_image | 200中/英字符 | 是 | 弹出框图标 |
-        | pop_button_left | 4中/英字符 | 是 | 弹出框左边按钮名称 |
-        | pop_button_right | 4中/英字符 | 是 | 弹出框右边按钮名称 |
-        | load_icon | 40中/英字符 | 是 | 下载图标: 本地图标[file://]， 网络图标[url] |
-        | load_title | 40中/英字符 | 是 | 下载标题 |
-        | load_url | 200中/英字符 | 是 | 下载地址 |
-        | is_auto_install |  | 否 | 是否自动安装（默认否） |
-        | is_actived |  | 否 | 安装完成后是否自动启动应用程序（默认否）|
-        | is_ring |  | 否 | 是否响铃，默认响铃 |
-        | is_vibrate |  | 否 | 是否振动，默认振动 |
-        | is_clearable |  | 否 | 是否可清除，默认可清除 |
-        | begin_time |  | 否 | 消息展示开始时间 |
-        | end_time |  | 否 | 消息展示结束时间 |
+        | title | string(40) | 是 | 通知栏标题 |
+        | text | string(600) | 是 | 通知栏内容 |
+        | pop_title | string(40) | 是 | 弹出框标题 |
+        | pop_content | string(600) | 是 | 弹出框内容 |
+        | pop_image | string(200) | 是 | 弹出框图标 |
+        | pop_button_left | string(4) | 是 | 弹出框左边按钮名称 |
+        | pop_button_right | string(4) | 是 | 弹出框右边按钮名称 |
+        | load_icon | string(40) | 是 | 下载图标: 本地图标[file://]， 网络图标[url] |
+        | load_title | string(40) | 是 | 下载标题 |
+        | load_url | string(200) | 是 | 下载地址 |
+        | is_auto_install | boolean | 否 | 是否自动安装（默认否） |
+        | is_actived | boolean | 否 | 安装完成后是否自动启动应用程序（默认否）|
+        | is_ring | boolean | 否 | 是否响铃，默认响铃 |
+        | is_vibrate | boolean | 否 | 是否振动，默认振动 |
+        | is_clearable | boolean | 否 | 是否可清除，默认可清除 |
+        | begin_time | timestamp | 否 | 消息展示开始时间 |
+        | end_time | timestamp | 否 | 消息展示结束时间 |
+        
+        * 当 `'template_type' = 3` 时：  
+                         
+        | 字段 | 类型 | 是否必填 | 说明 | 
+        | ----------- | :--- | :--- | :--------- |
+        | transmission_type | enum | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
+        | transmission_content | string(2048) | 是 | 透传内容，不支持转义字符 |
+        | is_ios | boolean | 否 | 是否支持 ios，默认不支持 |
+        | is_content_available | boolean | 否 | 推送是否直接带有透传数据，默认否 |
+        | badge | int | 否 | 应用icon上显示的数字 |
+        | sound | string | 否 | 通知铃声文件名 |
+        | custom_msg | key-value | 否 | 增加自定义的数据 |
+        | title | string | 否 | 通知标题 |
+        | text | string | 否 | 通知内容 |
+        
     
     * `cid`：推送通知至指定用户时填写
     
@@ -150,7 +165,8 @@ Getui::pushMessageToApp($data);
        ];
        ```
     * Tips：
-       * 消息展示开始时间与消息展示结束时间必须同时设置（格式 yyyy-MM-dd HH:mm:ss），否则无效；
+       * 消息展示开始时间与消息展示结束时间必须同时设置（格式 `yyyy-MM-dd HH:mm:ss`），否则无效
+       * 透传消息模版中，当 `is_content_available = 0` 时，`title` 与 `text` 必填
     
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
