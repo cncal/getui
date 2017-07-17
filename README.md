@@ -143,21 +143,21 @@ Getui::pushMessageToApp($data);
        * 透传消息模版中，当 `is_content_available = 0` 时，`title` 与 `text` 必填
     
     * 示例：
-           ```php
-           $data = [
-               'template_type' => 1,
-               'template_data' => [
-                   'title' => 'Laravel Getui',
-                   'text' => 'May you succeed.',
-                   'transmission_type' => 1,
-                   'transmission_content' => 'It is transmission content',
-                   'is_ring' => false,
-                   'is_clearable' => false,
-                   'begin_at' => '2017-08-01 09:00:00',
-                   'end_at' => '2017-08-02 17:00:00',
-               ],
-               'cid' => 'your cid',
-           ];
-           ```
+       ```php
+       $data = [
+           'template_type' => 1,
+           'template_data' => [
+               'title' => 'Laravel Getui',
+               'text' => 'May you succeed.',
+               'transmission_type' => 1,
+               'transmission_content' => 'It is transmission content',
+               'is_ring' => false,
+               'is_clearable' => false,
+               'begin_at' => '2017-08-01 09:00:00',
+               'end_at' => '2017-08-02 17:00:00',
+           ],
+           'cid' => 'your cid',
+       ];
+       ```
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
