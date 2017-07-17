@@ -37,30 +37,41 @@ class Getui
     {
         // 获取个推配置信息
         $config = $this->config->get('getui');
-        $host = $config['basic_info']['host'];
-        $app_id = $config['basic_info']['app_id'];
-        $app_key = $config['basic_info']['app_key'];
-        $master_secret = $config['basic_info']['master_secret'];
+        $host = $config['basic']['host'];
+        $app_id = $config['basic']['app_id'];
+        $app_key = $config['basic']['app_key'];
+        $master_secret = $config['basic']['master_secret'];
 
         // 解析数据
         $template_type = $data['template_type'];
         $template_data = $data['template_data'];
         $cid = $data['cid'];
 
-        $is_off_line = $config['push_info']['is_offline'];
-        $offline_expire_time = $config['push_info']['offline_expire_time'];
-        $push_network_type = $config['push_info']['network_type'];
+        $is_off_line = isset($data['template_data']['is_offline']) ?
+            (bool)$data['template_data']['is_offline'] : $config['push']['is_offline'];
+
+
+        $offline_expire_time = isset($data['template_data']['is_offline']) ?
+            (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
+            $config['push']['offline_expire_time'] * 1000 * 3600;
+
+
+        $network_type = isset($data['template_data']['network_type']) ?
+            (int)$data['template_data']['network_type'] : $config['push']['network_type'];
 
         $igt = new IGtPush($host, $app_key, $master_secret);
 
         //todo: need to discuss
-        $getui_template = new GetuiTemplate($app_id, $app_key, $template_type, $template_data);
+        $getui_template = new GetuiTemplate($app_id, $app_key, $config, $template_type, $template_data);
         $template = $getui_template->getTemplate();
 
         $message = new IGtSingleMessage();
         $message->set_isOffline($is_off_line);
-        $message->set_offlineExpireTime($offline_expire_time);
-        $message->set_pushNetWorkType($push_network_type);
+        if($is_off_line)
+        {
+            $message->set_offlineExpireTime($offline_expire_time);
+        }
+        $message->set_pushNetWorkType($network_type);
         $message->set_data($template);
 
         // 接收方
@@ -89,29 +100,40 @@ class Getui
     {
         // 获取个推配置信息
         $config = $this->config->get('getui');
-        $host = $config['basic_info']['host'];
-        $app_id = $config['basic_info']['app_id'];
-        $app_key = $config['basic_info']['app_key'];
-        $master_secret = $config['basic_info']['master_secret'];
+        $host = $config['basic']['host'];
+        $app_id = $config['basic']['app_id'];
+        $app_key = $config['basic']['app_key'];
+        $master_secret = $config['basic']['master_secret'];
 
         // 解析数据
         $template_type = $data['template_type'];
         $template_data = $data['template_data'];
 
-        $is_off_line = $config['push_info']['is_offline'];
-        $offline_expire_time = $config['push_info']['offline_expire_time'];
-        $push_network_type = $config['push_info']['network_type'];
+        $is_off_line = isset($data['template_data']['is_offline']) ?
+            (bool)$data['template_data']['is_offline'] : $config['push']['is_offline'];
+
+
+        $offline_expire_time = isset($data['template_data']['is_offline']) ?
+            (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
+            $config['push']['offline_expire_time'] * 1000 * 3600;
+
+
+        $network_type = isset($data['template_data']['network_type']) ?
+            (int)$data['template_data']['network_type'] : $config['push']['network_type'];
 
         $igt = new IGtPush($host, $app_key, $master_secret);
 
         // todo: need to discuss
-        $getui_template = new GetuiTemplate($app_id, $app_key, $template_type, $template_data);
+        $getui_template = new GetuiTemplate($app_id, $app_key, $config, $template_type, $template_data);
         $template = $getui_template->getTemplate();
 
         $message = new IGtAppMessage();
         $message->set_isOffline($is_off_line);
-        $message->set_offlineExpireTime($offline_expire_time);
-        $message->set_pushNetWorkType($push_network_type);
+        if($is_off_line)
+        {
+            $message->set_offlineExpireTime($offline_expire_time);
+        }
+        $message->set_pushNetWorkType($network_type);
         $message->set_appIdList(array($app_id));
         $message->set_data($template);
 

@@ -35,7 +35,7 @@ $ php artisan vendor:publish --provider="Cncal\Getui\GetuiServiceProvider"
 在 `config/getui.php` 中配置推送信息：
 ```php
 // 个推基础信息，在平台新建应用的时候生成
-'basic_info' => [
+'basic' => [
     'host' => "http://sdk.open.api.igexin.com/apiex.htm",
     'app_id' => "",
     'app_key' => "",
@@ -43,10 +43,13 @@ $ php artisan vendor:publish --provider="Cncal\Getui\GetuiServiceProvider"
 ],
 
 // 推送消息的基础设置
-'push_info' => [
-    'is_offline' => true, // 是否发送离线消息
-    'offline_expire_time' => 3600*1000*2, // 离线消息过期时间，单位为毫秒
-    'network_type' => 0 // 是否根据网络环境推送消息, 0为不限制推送, 1为wifi推送, 2为4G/3G/2G
+'push' => [
+    'is_ring' => true,  //是否响铃
+    'is_vibrate' => true,  // 是否振动
+    'is_clearable' => true,  // 是否可清除
+    'is_offline' => true,  // 是否发送离线消息
+    'offline_expire_time' => 2, // 离线消息过期时间，单位为小时（范围：0- 72），该时间段内 cid 在线过的用户均可收到通知
+    'network_type' => 0,  // 是否根据网络环境推送消息，0为不限制推送，1为wifi推送，2为4G/3G/2G
 ],
 ```
 
@@ -93,11 +96,6 @@ Getui::pushMessageToApp($data);
         | text | string(600) | 是 | 通知内容 |
         | transmission_type | enum | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
         | transmission_content | string(2048) | 是 | 透传内容，不支持转义字符 |
-        | is_ring | boolean | 否 | 是否响铃，默认响铃 |
-        | is_vibrate | boolean | 否 | 是否振动，默认振动 |
-        | is_clearable | boolean | 否 | 是否可清除，默认可清除 |
-        | begin_time | timestamp | 否 | 消息展示开始时间 |
-        | end_time | timestamp | 否 | 消息展示结束时间 |
       
        * 当 `'template_type' = 2` 时：  
          
@@ -106,11 +104,6 @@ Getui::pushMessageToApp($data);
         | title | string(40) | 是 | 通知标题 |
         | text | string(600) | 是 | 通知内容 |
         | url | string(200) | 是 | 点击通知后打开的网页地址 |
-        | is_ring | boolean | 否 | 是否响铃，默认响铃 |
-        | is_vibrate | boolean | 否 | 是否振动，默认振动 |
-        | is_clearable | boolean | 否 | 是否可清除，默认可清除 |
-        | begin_time | timestamp | 否 | 消息展示开始时间 |
-        | end_time | timestamp | 否 | 消息展示结束时间 |
         
         * 当 `'template_type' = 3` 时：  
                  
@@ -121,18 +114,11 @@ Getui::pushMessageToApp($data);
         | pop_title | string(40) | 是 | 弹出框标题 |
         | pop_content | string(600) | 是 | 弹出框内容 |
         | pop_image | string(200) | 是 | 弹出框图标 |
-        | pop_button_left | string(4) | 是 | 弹出框左边按钮名称 |
-        | pop_button_right | string(4) | 是 | 弹出框右边按钮名称 |
         | load_icon | string(40) | 是 | 下载图标: 本地图标[file://]， 网络图标[url] |
         | load_title | string(40) | 是 | 下载标题 |
         | load_url | string(200) | 是 | 下载地址 |
         | is_auto_install | boolean | 否 | 是否自动安装（默认否） |
         | is_actived | boolean | 否 | 安装完成后是否自动启动应用程序（默认否）|
-        | is_ring | boolean | 否 | 是否响铃，默认响铃 |
-        | is_vibrate | boolean | 否 | 是否振动，默认振动 |
-        | is_clearable | boolean | 否 | 是否可清除，默认可清除 |
-        | begin_time | timestamp | 否 | 消息展示开始时间 |
-        | end_time | timestamp | 否 | 消息展示结束时间 |
         
         * 当 `'template_type' = 3` 时：  
                          
@@ -151,22 +137,27 @@ Getui::pushMessageToApp($data);
     
     * `cid`：推送通知至指定用户时填写
     
-    * 示例：
-       ```php
-       $data = [
-           'template_type' => 1,
-           'template_data' => [
-               'title' => 'Laravel Getui',
-               'text' => 'May you succeed.',
-               'transmission_type' => 1,
-               'transmission_content' => 'It is transmission content',
-           ],
-           'cid' => 'your cid',
-       ];
-       ```
-    * Tips：
-       * 消息展示开始时间与消息展示结束时间必须同时设置（格式 `yyyy-MM-dd HH:mm:ss`），否则无效
+    * 注意事项：
+       * 配置中所有的变量都可以针对于某一条具体的推送自定义值，须放在 `template_data` 节点下
+       * 推送可定时展示，开始时间 `start_at` 与结束时间 `end_at` 必须同时设置（格式 `Y-m-d H:i:s`），否则无效
        * 透传消息模版中，当 `is_content_available = 0` 时，`title` 与 `text` 必填
     
+    * 示例：
+           ```php
+           $data = [
+               'template_type' => 1,
+               'template_data' => [
+                   'title' => 'Laravel Getui',
+                   'text' => 'May you succeed.',
+                   'transmission_type' => 1,
+                   'transmission_content' => 'It is transmission content',
+                   'is_ring' => false,
+                   'is_clearable' => false,
+                   'begin_at' => '2017-08-01 09:00:00',
+                   'end_at' => '2017-08-02 17:00:00',
+               ],
+               'cid' => 'your cid',
+           ];
+           ```
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)

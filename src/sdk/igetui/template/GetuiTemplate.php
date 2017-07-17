@@ -18,6 +18,11 @@ class GetuiTemplate
     protected $app_key;
 
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * Template type.
      *
      * @var integer
@@ -36,13 +41,15 @@ class GetuiTemplate
      *
      * @param $app_id
      * @param $app_key
+     * @param $config
      * @param $type
      * @param $template_data
      */
-    public function __construct($app_id, $app_key, $type, $template_data)
+    public function __construct($app_id, $app_key, $config, $type, $template_data)
     {
         $this->app_id = $app_id;
         $this->app_key = $app_key;
+        $this->config = $config;
         $this->type = $type;
         $this->template_data = $template_data;
     }
@@ -84,13 +91,16 @@ class GetuiTemplate
         $template->set_transmissionContent($transmission_content);
         $template->set_title($title);
         $template->set_text($text);
-        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : 'GT_ON');
-        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : 'GT_ON');
-        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : 'GT_ON');
+        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->config['push']['is_ring']);
+        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->config['push']['is_vibrate']);
+        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->config['push']['is_clearable']);
 
-        if(isset($begin_time) && isset($end_time))
+        if(isset($begin_at) && isset($end_at))
         {
-            $template->set_duration(date_format(date_create($begin_time), 'Y-m-d H:i:s'), date_format(date_create($end_time), 'Y-m-d H:i:s'));
+            $template->set_duration(
+                date_format(date_create($begin_at), 'Y-m-d H:i:s'),
+                date_format(date_create($end_at), 'Y-m-d H:i:s')
+            );
         }
 
         return $template;
@@ -110,13 +120,16 @@ class GetuiTemplate
         $template->set_title($title);
         $template->set_text($text);
         $template->set_url($url);
-        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : true);
-        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : true);
-        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : true);
+        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->config['push']['is_ring']);
+        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->config['push']['is_vibrate']);
+        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->config['push']['is_clearable']);
 
-        if(isset($begin_time) && isset($end_time))
+        if(isset($begin_at) && isset($end_at))
         {
-            $template->set_duration(date_format(date_create($begin_time), 'Y-m-d H:i:s'), date_format(date_create($end_time), 'Y-m-d H:i:s'));
+            $template->set_duration(
+                date_format(date_create($begin_at), 'Y-m-d H:i:s'),
+                date_format(date_create($end_at), 'Y-m-d H:i:s')
+            );
         }
 
         return $template;
@@ -137,16 +150,13 @@ class GetuiTemplate
         // 通知栏
         $template->set_notyTitle($title);
         $template->set_notyContent($text);
-        $template->set_isBelled(isset($is_ring) ? (boolean)$is_ring : true);
-        $template->set_isVibrationed(isset($is_vibrate) ? (boolean)$is_vibrate : true);
-        $template->set_isCleared(isset($is_clearable) ? (boolean)$is_clearable : true);
 
         // 弹框
         $template->set_popTitle($pop_title);
         $template->set_popContent($pop_content);
         $template->set_popImage($pop_image);
-        $template->set_popButton1($pop_button_left);
-        $template->set_popButton2($pop_button_right);
+        $template->set_popButton1("下载");
+        $template->set_popButton2("");
 
         // 下载
         $template->set_loadIcon($load_icon);
@@ -155,9 +165,15 @@ class GetuiTemplate
         $template->set_isAutoInstall(isset($is_auto_install) ? (boolean)$is_auto_install : false);
         $template->set_isActived(isset($is_actived) ? (boolean)$is_actived : false);
 
-        if(isset($begin_time) && isset($end_time))
+        $template->set_isBelled(isset($is_ring) ? (boolean)$is_ring : $this->config['push']['is_ring']);
+        $template->set_isVibrationed(isset($is_vibrate) ? (boolean)$is_vibrate : $this->config['push']['is_vibrate']);
+        $template->set_isCleared(isset($is_clearable) ? (boolean)$is_clearable : $this->config['push']['is_clearable']);
+        if(isset($begin_at) && isset($end_at))
         {
-            $template->set_duration(date_format(date_create($begin_time), 'Y-m-d H:i:s'), date_format(date_create($end_time), 'Y-m-d H:i:s'));
+            $template->set_duration(
+                date_format(date_create($begin_at), 'Y-m-d H:i:s'),
+                date_format(date_create($end_at), 'Y-m-d H:i:s')
+            );
         }
 
         return $template;
