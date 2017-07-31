@@ -114,13 +114,13 @@ Getui::pushMessageToApp($data);
         | pop_title | string(40) | 是 | 弹出框标题 |
         | pop_content | string(600) | 是 | 弹出框内容 |
         | pop_image | string(200) | 是 | 弹出框图标 |
-        | load_icon | string(40) | 是 | 下载图标: 本地图标[file://]， 网络图标[url] |
+        | load_icon | string(40) | 是 | 下载图标: 本地图标[file://]， 网络图标[http:// 或 https://] |
         | load_title | string(40) | 是 | 下载标题 |
         | load_url | string(200) | 是 | 下载地址 |
         | is_auto_install | boolean | 否 | 是否自动安装（默认否） |
         | is_actived | boolean | 否 | 安装完成后是否自动启动应用程序（默认否）|
         
-        * 当 `'template_type' = 3` 时：  
+        * 当 `'template_type' = 4` 时：  
                          
         | 字段 | 类型 | 是否必填 | 说明 | 
         | ----------- | :--- | :--- | :--------- |
