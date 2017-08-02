@@ -161,3 +161,6 @@ Getui::pushMessageToApp($data);
        ```
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
+    
+* 版本说明：
+    * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5

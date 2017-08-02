@@ -50,11 +50,9 @@ class Getui
         $is_off_line = isset($data['template_data']['is_offline']) ?
             (bool)$data['template_data']['is_offline'] : $config['push']['is_offline'];
 
-
         $offline_expire_time = isset($data['template_data']['is_offline']) ?
             (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
             $config['push']['offline_expire_time'] * 1000 * 3600;
-
 
         $network_type = isset($data['template_data']['network_type']) ?
             (int)$data['template_data']['network_type'] : $config['push']['network_type'];
@@ -85,6 +83,67 @@ class Getui
             $requestId = $e->getRequestId();
             $rep = $igt->pushMessageToSingle($message, $target, $requestId);
         }
+
+        return $rep;
+    }
+
+    /**
+     * Push message to user list
+     *
+     * @param $data
+     *
+     * @return mixed|null
+     */
+    public function pushMessageToList($data)
+    {
+        // 获取个推配置信息
+        $config = $this->config->get('getui');
+        $host = $config['basic']['host'];
+        $app_id = $config['basic']['app_id'];
+        $app_key = $config['basic']['app_key'];
+        $master_secret = $config['basic']['master_secret'];
+
+        // 解析数据
+        $template_type = $data['template_type'];
+        $template_data = $data['template_data'];
+
+        $is_off_line = isset($data['template_data']['is_offline']) ?
+            (bool)$data['template_data']['is_offline'] : $config['push']['is_offline'];
+
+        $offline_expire_time = isset($data['template_data']['is_offline']) ?
+            (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
+            $config['push']['offline_expire_time'] * 1000 * 3600;
+
+        $network_type = isset($data['template_data']['network_type']) ?
+            (int)$data['template_data']['network_type'] : $config['push']['network_type'];
+
+        $igt = new IGtPush($host, $app_key, $master_secret);
+
+        $getui_template = new GetuiTemplate($app_id, $app_key, $config, $template_type, $template_data);
+        $template = $getui_template->getTemplate();
+
+        $message = new IGtSingleMessage();
+        $message->set_isOffline($is_off_line);
+        if($is_off_line)
+        {
+            $message->set_offlineExpireTime($offline_expire_time);
+        }
+        $message->set_pushNetWorkType($network_type);
+        $message->set_data($template);
+
+        $contentId = $igt->getContentId($message);
+
+        // 接收方列表
+        $cid_list = explode(",", $data['cid_list']);
+        foreach ($cid_list as $cid)
+        {
+            $target = new IGtTarget();
+            $target->set_appId($app_id);
+            $target->set_clientId($cid);
+            $target_list[] = $target;
+        }
+
+        $rep = $igt->pushMessageToList($contentId, $target_list);
 
         return $rep;
     }
@@ -140,5 +199,51 @@ class Getui
         $rep = $igt->pushMessageToApp($message);
         return $rep;
     }
+
+    /**
+     * get app user data by date
+     *
+     * @param $data
+     *
+     * @return mixed|null
+     */
+    public function getAppUserDataByDate($data)
+    {
+        // 获取个推配置信息
+        $config = $this->config->get('getui');
+        $host = $config['basic']['host'];
+        $app_id = $config['basic']['app_id'];
+        $app_key = $config['basic']['app_key'];
+        $master_secret = $config['basic']['master_secret'];
+
+        $igt = new IGtPush($host, $app_key, $master_secret);
+        $rep = $igt->queryAppUserDataByDate($app_id, $data['date']);
+
+        return $rep;
+    }
+
+    /**
+     * get app push data by date
+     *
+     * @param $data
+     *
+     * @return mixed|null
+     */
+    public function getAppPushDataByDate($data)
+    {
+        // 获取个推配置信息
+        $config = $this->config->get('getui');
+        $host = $config['basic']['host'];
+        $app_id = $config['basic']['app_id'];
+        $app_key = $config['basic']['app_key'];
+        $master_secret = $config['basic']['master_secret'];
+
+        $igt = new IGtPush($host, $app_key, $master_secret);
+        $rep = $igt->queryAppPushDataByDate($app_id, $data['date']);
+
+        return $rep;
+    }
+
+    // todo: after testing all of functions successfully, rename Class `IGtPush` to IGt
 }
 

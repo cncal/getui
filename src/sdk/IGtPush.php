@@ -257,7 +257,6 @@ Class IGtPush
             {
                 $appId = $target->get_appId();
             }
-
         }
         $params["appId"] = $appId;
         $params["clientIdList"] = $clientIdList;
