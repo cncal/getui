@@ -54,7 +54,7 @@ $ php artisan vendor:publish --provider="Cncal\Getui\GetuiServiceProvider"
 ```
 
 ## 使用
-* 方法：
+* 函数：
 ```php
 <?php 
 use Getui;
@@ -68,6 +68,14 @@ use Getui;
  */
 Getui::pushMessageToSingle($data);
 
+/**
+ * 推送通知至指定用户列表
+ *
+ * @param $data
+ *
+ * @return $rep
+ */
+Getui::pushMessageToList($data);
 
 /**
  * 推送通知至该应用的所有用户
@@ -81,67 +89,80 @@ Getui::pushMessageToApp($data);
 ```
 
 * 入参 `$data`
-    * `template_type`
-       * 1: [点击通知打开应用模板](http://docs.getui.com/server/php/template/#1)
-       * 2: [点击通知打开网页模板](http://docs.getui.com/server/php/template/#2)
-       * 3: [点击通知弹窗下载模板](http://docs.getui.com/server/php/template/#3)
-       * 4: [透传消息模版](http://docs.getui.com/server/php/template/#4)
-       
-    * `template_data`
-       * 当 `'template_type' = 1` 时：    
-       
-        | 字段 | 类型 | 是否必填 | 说明 | 
-        | ----------- | :--- | :--- | :--------- |
-        | title | string(40) | 是 | 通知标题 |
-        | text | string(600) | 是 | 通知内容 |
-        | transmission_type | enum | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
-        | transmission_content | string(2048) | 是 | 透传内容，不支持转义字符 |
-      
-       * 当 `'template_type' = 2` 时：  
-         
-        | 字段 | 类型 | 是否必填 | 说明 | 
-        | ----------- | :--- | :--- | :--------- |
-        | title | string(40) | 是 | 通知标题 |
-        | text | string(600) | 是 | 通知内容 |
-        | url | string(200) | 是 | 点击通知后打开的网页地址 |
+    * [点击通知打开应用模板](http://docs.getui.com/server/php/template/#1)
+    ``` php
+    $data = [
+        'template_type' => 1,
+        'template_type' => [
+            'title' => '', // 通知标题，string(40), 必填
+            'text'  => '', // 通知内容，string(600), 必填
+            'transmission_type'    => 2, // 是否立即启动应用：1 立即启动 2 等待客户端自启动，必填
+            'transmission_content' => '', // 透传内容，不支持转义字符，string(2048), 必填
+        ]
+        'cid' => 'your cid', // 推送通知至指定用户时填写
+        'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+    ];
+    ```
+    * [点击通知打开网页模板](http://docs.getui.com/server/php/template/#2)
+        ``` php
+        $data = [
+            'template_type' => 2,
+            'template_type' => [
+                'title' => '', // 通知标题，string(40), 必填
+                'text'  => '', // 通知内容，string(600), 必填
+                'url'   => '', // 点击通知后打开的网页地址，string(200), 必填
+            ]
+            'cid' => 'your cid', // 推送通知至指定用户时填写
+            'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+        ];
+        ```
         
-        * 当 `'template_type' = 3` 时：  
-                 
-        | 字段 | 类型 | 是否必填 | 说明 | 
-        | ----------- | :--- | :--- | :--------- |
-        | title | string(40) | 是 | 通知栏标题 |
-        | text | string(600) | 是 | 通知栏内容 |
-        | pop_title | string(40) | 是 | 弹出框标题 |
-        | pop_content | string(600) | 是 | 弹出框内容 |
-        | pop_image | string(200) | 是 | 弹出框图标 |
-        | load_icon | string(40) | 是 | 下载图标: 本地图标[file://]， 网络图标[http:// 或 https://] |
-        | load_title | string(40) | 是 | 下载标题 |
-        | load_url | string(200) | 是 | 下载地址 |
-        | is_auto_install | boolean | 否 | 是否自动安装（默认否） |
-        | is_actived | boolean | 否 | 安装完成后是否自动启动应用程序（默认否）|
+    * [点击通知弹窗下载模板](http://docs.getui.com/server/php/template/#3)
+        ``` php
+        $data = [
+            'template_type' => 3,
+            'template_type' => [
+                'title' => '', // 通知标题，string(40), 必填
+                'text'  => '', // 通知内容，string(600), 必填
+                'pop_title'   => '', // 弹出框标题，string(40), 必填
+                'pop_content' => '', // 弹出框内容，string(600), 必填
+                'pop_image'   => '', // 弹出框图标，string(200), 必填
+                'load_icon'   => '', // 下载图标: 本地图标[file://]， 网络图标[http:// 或 https://]，string(40), 必填
+                'load_title'  => '', // 下载标题，string(40), 必填
+                'load_url'    => '', // 下载地址，string(200), 必填
+                'is_auto_install' => true, // 是否自动安装（默认否），boolean
+                'is_actived'  => false, // 安装完成后是否自动启动应用程序（默认否），boolean
+            ]
+            'cid' => 'your cid', // 推送通知至指定用户时填写
+            'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+        ];
+        ```
         
-        * 当 `'template_type' = 4` 时：  
-                         
-        | 字段 | 类型 | 是否必填 | 说明 | 
-        | ----------- | :--- | :--- | :--------- |
-        | transmission_type | enum | 是 | 是否立即启动应用：1 立即启动，2 等待客户端自启动 |
-        | transmission_content | string(2048) | 是 | 透传内容，不支持转义字符 |
-        | is_ios | boolean | 否 | 是否支持 ios，默认不支持 |
-        | is_content_available | boolean | 否 | 推送是否直接带有透传数据，默认否 |
-        | badge | int | 否 | 应用icon上显示的数字 |
-        | sound | string | 否 | 通知铃声文件名 |
-        | custom_msg | key-value | 否 | 增加自定义的数据 |
-        | title | string | 否 | 通知标题 |
-        | text | string | 否 | 通知内容 |
-        
-    
-    * `cid`：推送通知至指定用户时填写
+    * [透传消息模版](http://docs.getui.com/server/php/template/#4)
+        ``` php
+        $data = [
+            'template_type' => 4,
+            'template_type' => [
+                'transmission_type' => 2, // 是否立即启动应用：1 立即启动 2 等待客户端自启动，必填
+                'transmission_content' => '', // 透传内容，不支持转义字符，string(2048), 必填
+                'is_ios' => false, // 是否支持 ios （默认不支持），boolean
+                'is_content_available' => false, // 推送是否直接带有透传数据（默认否）, boolean
+                'badge' => '', // 应用icon上显示的数字，int
+                'sound' => '', // 通知铃声文件名，string
+                'custom_msg' => '', // 增加自定义的数据，key-value
+                'title' => '', // 通知标题，string
+                'text' => true, // 通知内容，string
+            ]
+            'cid' => 'your cid', // 推送通知至指定用户时填写
+            'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+        ];
+        ```
     
     * 注意事项：
        * 配置中所有的变量都可以针对于某一条具体的推送自定义值，须放在 `template_data` 节点下
        * 推送可定时展示，开始时间 `start_at` 与结束时间 `end_at` 必须同时设置（格式 `Y-m-d H:i:s`），否则无效
        * 透传消息模版中，当 `is_content_available = 0` 时，`title` 与 `text` 必填
-    
+       
     * 示例：
        ```php
        $data = [
@@ -163,4 +184,5 @@ Getui::pushMessageToApp($data);
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
     
 * 版本说明：
+    * v0.0.2：向指定的用户列表推送消息
     * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5
