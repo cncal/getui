@@ -99,8 +99,8 @@ Getui::pushMessageToApp($data);
             'transmission_type'    => 2, // 是否立即启动应用：1 立即启动 2 等待客户端自启动，必填
             'transmission_content' => '', // 透传内容，不支持转义字符，string(2048), 必填
         ]
-        'cid' => 'your cid', // 推送通知至指定用户时填写
-        'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+        'cid' => 'target cid', // 推送通知至指定用户时填写
+        'cid_list' => ['cid1','cid2',...], // 推送通知至指定用户列表时填写
     ];
     ```
     * [点击通知打开网页模板](http://docs.getui.com/server/php/template/#2)
@@ -112,8 +112,8 @@ Getui::pushMessageToApp($data);
                 'text'  => '', // 通知内容，string(600), 必填
                 'url'   => '', // 点击通知后打开的网页地址，string(200), 必填
             ]
-            'cid' => 'your cid', // 推送通知至指定用户时填写
-            'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+            'cid' => 'target cid', // 推送通知至指定用户时填写
+            'cid_list' => ['cid1','cid2',...], // 推送通知至指定用户列表时填写
         ];
         ```
         
@@ -133,8 +133,8 @@ Getui::pushMessageToApp($data);
                 'is_auto_install' => true, // 是否自动安装（默认否），boolean
                 'is_actived'  => false, // 安装完成后是否自动启动应用程序（默认否），boolean
             ]
-            'cid' => 'your cid', // 推送通知至指定用户时填写
-            'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+            'cid' => 'target cid', // 推送通知至指定用户时填写
+            'cid_list' => ['cid1','cid2',...], // 推送通知至指定用户列表时填写
         ];
         ```
         
@@ -153,8 +153,8 @@ Getui::pushMessageToApp($data);
                 'title' => '', // 通知标题，string
                 'text' => true, // 通知内容，string
             ]
-            'cid' => 'your cid', // 推送通知至指定用户时填写
-            'cid_list' => 'your cid', // 推送通知至指定用户列表时填写
+            'cid' => 'target cid', // 推送通知至指定用户时填写
+            'cid_list' => ['cid1','cid2',...], // 推送通知至指定用户列表时填写
         ];
         ```
     
@@ -177,12 +177,12 @@ Getui::pushMessageToApp($data);
                'begin_at' => '2017-08-01 09:00:00',
                'end_at' => '2017-08-02 17:00:00',
            ],
-           'cid' => 'your cid',
+           'cid' => 'target cid',
        ];
        ```
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
     
-* 版本说明：
+* 版本更新说明：
     * v0.0.2：向指定的用户列表推送消息
     * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5

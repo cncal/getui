@@ -5,6 +5,7 @@ use Illuminate\Config\Repository;
 use Cncal\Getui\Sdk\IGtPush;
 use Cncal\Getui\Sdk\IGetui\IGtAppMessage;
 use Cncal\Getui\Sdk\IGetui\IGtSingleMessage;
+use Cncal\Getui\Sdk\IGetui\IGtListMessage;
 use Cncal\Getui\Sdk\IGetui\Template\GetuiTemplate;
 use Cncal\Getui\Sdk\IGetui\IGtTarget;
 use Cncal\Getui\Sdk\Exception\GetuiException;
@@ -122,7 +123,7 @@ class Getui
         $getui_template = new GetuiTemplate($app_id, $app_key, $config, $template_type, $template_data);
         $template = $getui_template->getTemplate();
 
-        $message = new IGtSingleMessage();
+        $message = new IGtListMessage();
         $message->set_isOffline($is_off_line);
         if($is_off_line)
         {
@@ -134,8 +135,7 @@ class Getui
         $contentId = $igt->getContentId($message);
 
         // 接收方列表
-        $cid_list = explode(",", $data['cid_list']);
-        foreach ($cid_list as $cid)
+        foreach ($data['cid_list'] as $cid)
         {
             $target = new IGtTarget();
             $target->set_appId($app_id);
@@ -199,51 +199,5 @@ class Getui
         $rep = $igt->pushMessageToApp($message);
         return $rep;
     }
-
-    /**
-     * get app user data by date
-     *
-     * @param $data
-     *
-     * @return mixed|null
-     */
-    public function getAppUserDataByDate($data)
-    {
-        // 获取个推配置信息
-        $config = $this->config->get('getui');
-        $host = $config['basic']['host'];
-        $app_id = $config['basic']['app_id'];
-        $app_key = $config['basic']['app_key'];
-        $master_secret = $config['basic']['master_secret'];
-
-        $igt = new IGtPush($host, $app_key, $master_secret);
-        $rep = $igt->queryAppUserDataByDate($app_id, $data['date']);
-
-        return $rep;
-    }
-
-    /**
-     * get app push data by date
-     *
-     * @param $data
-     *
-     * @return mixed|null
-     */
-    public function getAppPushDataByDate($data)
-    {
-        // 获取个推配置信息
-        $config = $this->config->get('getui');
-        $host = $config['basic']['host'];
-        $app_id = $config['basic']['app_id'];
-        $app_key = $config['basic']['app_key'];
-        $master_secret = $config['basic']['master_secret'];
-
-        $igt = new IGtPush($host, $app_key, $master_secret);
-        $rep = $igt->queryAppPushDataByDate($app_id, $data['date']);
-
-        return $rep;
-    }
-
-    // todo: after testing all of functions successfully, rename Class `IGtPush` to IGt
 }
 
