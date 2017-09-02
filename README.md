@@ -93,7 +93,7 @@ Getui::pushMessageToApp($data);
     ``` php
     $data = [
         'template_type' => 1,
-        'template_type' => [
+        'template_data' => [
             'title' => '', // 通知标题，string(40), 必填
             'text'  => '', // 通知内容，string(600), 必填
             'transmission_type'    => 2, // 是否立即启动应用：1 立即启动 2 等待客户端自启动，必填
@@ -107,7 +107,7 @@ Getui::pushMessageToApp($data);
         ``` php
         $data = [
             'template_type' => 2,
-            'template_type' => [
+            'template_data' => [
                 'title' => '', // 通知标题，string(40), 必填
                 'text'  => '', // 通知内容，string(600), 必填
                 'url'   => '', // 点击通知后打开的网页地址，string(200), 必填
@@ -121,7 +121,7 @@ Getui::pushMessageToApp($data);
         ``` php
         $data = [
             'template_type' => 3,
-            'template_type' => [
+            'template_data' => [
                 'title' => '', // 通知标题，string(40), 必填
                 'text'  => '', // 通知内容，string(600), 必填
                 'pop_title'   => '', // 弹出框标题，string(40), 必填
@@ -142,7 +142,7 @@ Getui::pushMessageToApp($data);
         ``` php
         $data = [
             'template_type' => 4,
-            'template_type' => [
+            'template_data' => [
                 'transmission_type' => 2, // 是否立即启动应用：1 立即启动 2 等待客户端自启动，必填
                 'transmission_content' => '', // 透传内容，不支持转义字符，string(2048), 必填
                 'is_ios' => false, // 是否支持 ios （默认不支持），boolean
