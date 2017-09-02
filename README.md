@@ -187,7 +187,7 @@ Getui::pushMessageToApp($data);
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
     
-* 版本更新说明：   
-    * v0.0.3：修复 ios 透传消息无法增加自定义数据的 bug
+* 版本更新说明：
+    * v0.0.3：修复 ios 透传消息无法增加自定义数据的 bug
     * v0.0.2：向指定的用户列表推送消息
     * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5
