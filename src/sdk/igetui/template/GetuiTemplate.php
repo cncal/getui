@@ -59,13 +59,13 @@ class GetuiTemplate
         switch ($this->type)
         {
             case 1:
-                $template = $this->IGtNotificationTemplateDemo();
+                $template = $this->IGtNotificationTemplate();
                 break;
             case 2:
-                $template = $this->IGtLinkTemplateDemo();
+                $template = $this->IGtLinkTemplate();
                 break;
             case 3:
-                $template = $this->IGtNotyPopLoadTemplateDemo();
+                $template = $this->IGtNotyPopLoadTemplate();
                 break;
             case 4:
                 $template = $this->IGtTransmissionTemplate();
@@ -79,7 +79,7 @@ class GetuiTemplate
     /**
      * 点击通知打开应用模板
      */
-    private function IGtNotificationTemplateDemo()
+    private function IGtNotificationTemplate()
     {
         // 解析模板数据
         extract($this->template_data);
@@ -109,7 +109,7 @@ class GetuiTemplate
     /**
      * 点击通知打开网页模板
      */
-    private function IGtLinkTemplateDemo()
+    private function IGtLinkTemplate()
     {
         // 解析模板数据
         extract($this->template_data);
@@ -138,7 +138,7 @@ class GetuiTemplate
     /**
      * 点击通知弹窗下载模板
      */
-    private function IGtNotyPopLoadTemplateDemo()
+    private function IGtNotyPopLoadTemplate()
     {
         // 解析模板数据
         extract($this->template_data);
@@ -220,9 +220,12 @@ class GetuiTemplate
                 $apn->sound = $sound;
             }
 
-            if(isset($custom_msg))
+            if(isset($custom_msg) && count($custom_msg) > 0)
             {
-                $apn->add_customMsg($custom_msg);
+                foreach ($custom_msg as $key => $value)
+                {
+                    $apn->add_customMsg($key, $value);
+                }
             }
 
             $template->set_apnInfo($apn);
