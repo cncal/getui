@@ -149,7 +149,11 @@ Getui::pushMessageToApp($data);
                 'is_content_available' => false, // 推送是否直接带有透传数据（默认否）, boolean
                 'badge' => '', // 应用icon上显示的数字，int
                 'sound' => '', // 通知铃声文件名，string
-                'custom_msg' => '', // 增加自定义的数据，key-value
+                'custom_msg' => [
+                   'key1' => value1,
+                   'key2' => value2,
+                   ...
+                ], // 增加自定义的数据
                 'title' => '', // 通知标题，string
                 'text' => true, // 通知内容，string
             ]
@@ -161,7 +165,7 @@ Getui::pushMessageToApp($data);
     * 注意事项：
        * 配置中所有的变量都可以针对于某一条具体的推送自定义值，须放在 `template_data` 节点下
        * 推送可定时展示，开始时间 `start_at` 与结束时间 `end_at` 必须同时设置（格式 `Y-m-d H:i:s`），否则无效
-       * 透传消息模版中，当 `is_content_available = 0` 时，`title` 与 `text` 必填
+       * 透传消息模版中，当 `is_content_available = false` 时，`title` 与 `text` 必填
        
     * 示例：
        ```php
@@ -182,7 +186,8 @@ Getui::pushMessageToApp($data);
        ```
 * 返回值 `$rep`
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
-    
-## 版本更新说明
-* v0.0.2：向指定的用户列表推送消息
-* v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5
+    
+* 版本更新说明：
+    * v0.0.3: 修复 ios 透传消息无法增加自定义数据的 bug
+    * v0.0.2：向指定的用户列表推送消息
+    * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5
