@@ -24,39 +24,40 @@ Class IGtPush
         $this->masterSecret = $masterSecret;
 		
 		$domainUrl = trim($domainUrl);
+
 		if ($ssl == NULL && $domainUrl != NULL && strpos(strtolower($domainUrl), "https:") === 0)
 		{
 			$ssl = true;
 		}
+
 		$this->useSSL = ($ssl == NULL ? false : $ssl);
 		
         if ($domainUrl == NULL || strlen($domainUrl) == 0)
         {
             $this->domainUrlList =  GTConfig::getDefaultDomainUrl($this->useSSL);
-        }
-        else
-        {
+        } else {
             $this->domainUrlList = array($domainUrl);
         }
+
         $this->initOSDomain(null);
     }
 
     private function initOSDomain($hosts)
     {
-        if($hosts == null || count($hosts) == 0)
+        if ($hosts == null || count($hosts) == 0)
         {
             $hosts = isset(self::$appkeyUrlList[$this->appkey])?self::$appkeyUrlList[$this->appkey]:null;
-            if($hosts == null || count($hosts) == 0)
+            if ($hosts == null || count($hosts) == 0)
             {
                 $hosts = $this->getOSPushDomainUrlList($this->domainUrlList,$this->appkey);
                 self::$appkeyUrlList[$this->appkey] = $hosts;
             }
-        }
-        else
-        {
+        } else {
             self::$appkeyUrlList[$this->appkey] = $hosts;
         }
+
         $this->host = ApiUrlRespectUtils::getFastest($this->appkey, $hosts);
+
         return $this->host;
     }
 
@@ -77,27 +78,30 @@ Class IGtPush
                 {
                     break;
                 }
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 $ex = $e;
             }
         }
+
         if($urlList == null || count($urlList) <= 0)
         {
 			$h = implode(',', $domainUrlList);
             throw new \Exception("Can not get hosts from ".$h."|error:".$ex);
         }
+
         return $urlList;
     }
 
     function httpPostJSON($url,$data,$gzip=false)
     {
-        if($url == null){
+        if ($url == null)
+        {
             $url = $this->host;
         }
+
         $rep = HttpManager::httpPostJson($url, $data, $gzip);
-        if($rep != null)
+
+        if ($rep != null)
         {
             if ( 'sign_error' == $rep['result']) {
                 try
@@ -111,9 +115,7 @@ Class IGtPush
                 {
                     throw new \Exception("连接异常".$e);
                 }
-            }
-            else if('domain_error' == $rep['result'])
-            {
+            } else if('domain_error' == $rep['result']) {
                 $this->initOSDomain(isset($rep["osList"])?$rep["osList"]:null);
                 $rep = HttpManager::httpPostJson($url, $data, $gzip);
             }
@@ -134,9 +136,11 @@ Class IGtPush
         $params["timeStamp"] = $timeStamp;
         $params["sign"] = $sign;
         $rep = HttpManager::httpPostJson($this->host,$params,false);
+
         if ('success' == $rep['result']) {
             return true;
         }
+
         throw new \Exception("appKey Or masterSecret is Auth Failed");
     }
 
@@ -160,6 +164,7 @@ Class IGtPush
         {
             $requestId = uniqid();
         }
+
         $params = $this->getSingleMessagePostData($message, $target, $requestId);
         return $this->httpPostJSON($this->host,$params);
     }
@@ -169,6 +174,7 @@ Class IGtPush
         $params = array();
         $params["action"] = "pushMessageToSingleAction";
         $params["appkey"] = $this -> appkey;
+
         if($requestId != null)
         {
             $params["requestId"] = $requestId;
@@ -230,15 +236,15 @@ Class IGtPush
         if($async && (!$needDetails))
         {
             $limit = GTConfig::getAsyncListLimit();
-        }
-        else
-        {
+        } else {
             $limit = GTConfig::getSyncListLimit();
         }
+
         if(count($targetList) > $limit)
         {
             throw new \Exception("target size:".count($targetList)." beyond the limit:".$limit);
         }
+
         $clientIdList = array();
         $aliasList= array();
         $appId = null;
@@ -272,7 +278,8 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["contentId"] = $contentId;
         $rep = $this->httpPostJSON($this->host, $params);
-        if ("ok" == $rep["result"]) {
+        if ("ok" == $rep["result"])
+        {
             return true;
         }
         return false;
@@ -285,6 +292,7 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
         $params["clientId"] = $clientId;
+
         return $this->httpPostJSON($this->host, $params);
     }
 
@@ -296,6 +304,7 @@ Class IGtPush
         $params["appId"] = $appId;
         $params["clientId"] = $clientId;
         $params["tagList"] = $tags;
+
         return $this->httpPostJSON($this->host, $params);
     }
 
@@ -307,13 +316,14 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["contentId"] = $contentId;
         $params["type"] = 2;
+
         return $this->httpPostJSON($this->host,$params);
     }
 
     private function getListAppContentId($message, $taskGroupName = null)
     {
         $params = array();
-        if (!is_null($taskGroupName) && trim($taskGroupName) != ""){
+        if (!is_null($taskGroupName) && trim($taskGroupName) != "") {
             if(strlen($taskGroupName) > 40){
                 throw new \Exception("TaskGroupName is OverLimit 40");
             }
@@ -338,7 +348,7 @@ Class IGtPush
             $params["speed"] = $message->get_speed();
             //$params["personaTags"]
             $personaTags = array();
-            if($message->get_conditions() == null) {
+            if ($message->get_conditions() == null) {
                 $params["phoneTypeList"] = $message->get_phoneTypeList();
                 $params["provinceList"] = $message->get_provinceList();
                 $params["tagList"] = $message->get_tagList();
@@ -347,11 +357,13 @@ Class IGtPush
                 $params["conditions"] = $conditions->getCondition();
             }
         }
+
         $rep = $this->httpPostJSON($this->host,$params);
-        if($rep['result'] == 'ok')
+
+        if ($rep['result'] == 'ok')
         {
             return $rep['contentId'];
-        }else{
+        } else{
             throw new \Exception("host:[".$this->host."]" + "获取contentId失败:".$rep);
         }
     }
@@ -369,6 +381,7 @@ Class IGtPush
         $params['appkey'] = $this->appkey;
         $params['DT'] = $deviceToken;
         $params['PI'] = base64_encode($message->get_data()->get_pushInfo()->SerializeToString());
+
         return $this->httpPostJSON($this->host,$params);
     }
 
@@ -389,6 +402,7 @@ Class IGtPush
         $params["DTL"] = $deviceTokenList;
         $needDetails = GTConfig::isPushListNeedDetails();
         $params["needDetails"]=$needDetails;
+
         return $this->httpPostJSON($this->host,$params);
     }
     /**
@@ -405,9 +419,9 @@ Class IGtPush
         $params["appId"] = $appId;
         $params["PI"] = base64_encode($message->get_data()->get_pushInfo()->SerializeToString());
         $rep = $this->httpPostJSON($this->host,$params);
-        if($rep['result'] == 'ok'){
+        if ($rep['result'] == 'ok') {
             return $rep['contentId'];
-        }else{
+        } else {
             throw new \Exception("host:[".$this->host."]" + "获取contentId失败:".$rep);
         }
     }
@@ -420,6 +434,7 @@ Class IGtPush
         $params["appid"] = $appId;
         $params["alias"] = $alias;;
         $params["cid"] = $clientId;
+
         return $this->httpPostJSON($this->host,$params);
     }
 
@@ -437,6 +452,7 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["appid"] = $appId;
         $params["aliaslist"] = $aliasList;
+
         return $this->httpPostJSON($this->host,$params);
     }
 
@@ -446,7 +462,8 @@ Class IGtPush
         $params["action"] = "alias_query";
         $params["appkey"] = $this->appkey;
         $params["appid"] = $appId;
-        $params["alias"] = $alias;;
+        $params["alias"] = $alias;
+
         return $this->httpPostJSON($this->host, $params);
     }
 
@@ -457,6 +474,7 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["appid"] = $appId;
         $params["cid"] = $clientId;
+
         return $this->httpPostJSON($this->host, $params);
     }
 
@@ -471,6 +489,7 @@ Class IGtPush
         {
             $params["cid"] = $clientId;
         }
+
         return $this->httpPostJSON($this->host, $params);
     }
 
@@ -479,50 +498,61 @@ Class IGtPush
         return $this->unBindAlias($appId, $alias);
     }
 
-    public function getPushResult( $taskId) {
+    public function getPushResult( $taskId)
+    {
         $params = array();
         $params["action"] = "getPushMsgResult";
         $params["appkey"] = $this->appkey;
         $params["taskId"] = $taskId;
+
         return $this->httpPostJson($this->host, $params);
     }
 	
-	public function getPushResultByTaskidList( $taskIdList) {
+	public function getPushResultByTaskidList( $taskIdList)
+    {
 		return $this->getPushActionResultByTaskids($taskIdList, null);
 	}
 	
-	public function getPushActionResultByTaskids( $taskIdList, $actionIdList) {
+	public function getPushActionResultByTaskids( $taskIdList, $actionIdList)
+    {
         $params = array();
         $params["action"] = "getPushMsgResultByTaskidList";
         $params["appkey"] = $this->appkey;
         $params["taskIdList"] = $taskIdList;
 		$params["actionIdList"] = $actionIdList;
+
         return $this->httpPostJson($this->host, $params);
     }
 
-    public function getUserTags($appId, $clientId) {
+    public function getUserTags($appId, $clientId)
+    {
         $params = array();
         $params["action"] = "getUserTags";
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
         $params["clientId"] = $clientId;
+
         return $this->httpPostJson($this->host, $params);
     }
 
-    public function getUserCountByTags($appId, $tagList) {
+    public function getUserCountByTags($appId, $tagList)
+    {
         $params = array();
         $params["action"] = "getUserCountByTags";
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
         $params["tagList"] = $tagList;
         $limit = GTConfig::getTagListLimit();
-        if(count($tagList) > $limit) {
+        if (count($tagList) > $limit)
+        {
             throw new \Exception("tagList size:".count($tagList)." beyond the limit:".$limit);
         }
+
         return $this->httpPostJSON($this->host, $params);
     }
 
-    public function getPersonaTags($appId) {
+    public function getPersonaTags($appId)
+    {
         $params = array();
         $params["action"] = "getPersonaTags";
         $params["appkey"] = $this->appkey;
@@ -531,8 +561,10 @@ Class IGtPush
         return $this->httpPostJSON($this->host, $params);
     }
 
-    public function queryAppPushDataByDate($appId, $date){
-        if(!LangUtils::validateDate($date)){
+    public function queryAppPushDataByDate($appId, $date)
+    {
+        if (!LangUtils::validateDate($date))
+        {
             throw new \Exception("DateError|".$date);
         }
         $params = array();
@@ -540,29 +572,37 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
         $params["date"] = $date;
+
         return $this->httpPostJson($this->host, $params);
     }
 
-    public function queryAppUserDataByDate($appId, $date){
-        if(!LangUtils::validateDate($date)){
+    public function queryAppUserDataByDate($appId, $date)
+    {
+        if(!LangUtils::validateDate($date))
+        {
             throw new \Exception("DateError|".$date);
         }
+
         $params = array();
         $params["action"] = "queryAppUserData";
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
         $params["date"] = $date;
+
         return $this->httpPostJson($this->host, $params);
     }
 
-    public function queryUserCount($appId, $appConditions) {
+    public function queryUserCount($appId, $appConditions)
+    {
         $params = array();
         $params["action"] = "queryUserCount";
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
-        if(!is_null($appConditions)) {
+        if (!is_null($appConditions))
+        {
             $params["conditions"] = $appConditions->condition;
         }
+
         return $this->httpPostJson($this->host, $params);
     }
 

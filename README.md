@@ -1,13 +1,7 @@
 # A getui sdk package for laravel
 
-[![packagist](https://img.shields.io/packagist/v/cncal/getui.svg?style=flat-square)](https://packagist.org/packages/cncal/getui)
-[![downloads](https://img.shields.io/packagist/dt/cncal/getui.svg?style=flat-square)](https://packagist.org/packages/cncal/getui)
-[![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://raw.githubusercontent.com/cncal/getui/master/LICENSE)
-
-此扩展包仍在开发中，如有不足与建议，请在 [Issues](https://github.com/cncal/getui/issues) 中告知，感谢支持！
-
 ## 依赖
-* Laravel 5 +
+* Laravel 5+. （如果使用队列，须 Laravel 5.5 以上）
 * cUrl
 
 ## 安装
@@ -16,12 +10,12 @@
 $ composer require cncal/getui
 ```
 
-* 添加 `GetuiServiceProvider` 至 `config/app` 的 `providers`：
+* 如果 package 版本为 `0.0.*`, 添加 `GetuiServiceProvider` 至 `config/app` 的 `providers`：
 ```php
 Cncal\Getui\GetuiServiceProvider::class,
 ```
 
-* 添加 Facade 至 `config/app` 的 `aliases`：
+* 如果 package 版本为 `0.0.*`, 添加 Facade 至 `config/app` 的 `aliases`：
 ```php
 'Getui' => Cncal\Getui\Facades\Getui::class,
 ```
@@ -50,6 +44,13 @@ $ php artisan vendor:publish --provider="Cncal\Getui\GetuiServiceProvider"
     'is_offline' => true,  // 是否发送离线消息
     'offline_expire_time' => 2, // 离线消息过期时间，单位为小时（范围：0- 72），该时间段内 cid 在线过的用户均可收到通知
     'network_type' => 0,  // 是否根据网络环境推送消息，0为不限制推送，1为wifi推送，2为4G/3G/2G
+],
+
+// 队列配置
+'queue' => [
+    'is_used' => false, // 是否使用队列
+    'connection' => env('QUEUE_DRIVER', 'sync'), // 连接
+    'queue' => 'default', // 队列
 ],
 ```
 
@@ -188,6 +189,9 @@ Getui::pushMessageToApp($data);
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
     
 * 版本更新说明：
+    * v0.1.0: 
+        * 针对 Laravel5.5LTS 新功能 Package Discovery 更新 `composer.json`；
+        * 新功能：支持队列
     * v0.0.3：修复 ios 透传消息无法增加自定义数据的 bug
     * v0.0.2：向指定的用户列表推送消息
     * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5

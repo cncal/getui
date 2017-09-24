@@ -1,6 +1,7 @@
 {
     "name": "cncal/getui",
     "description": "A getui sdk package for laravel.",
+    "keywords": ["laravel", "getui"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,10 +11,23 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "illuminate/queue": "5.5.*",
+        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*"
+    },
     "autoload": {
         "psr-4": {
             "Cncal\\Getui\\" : "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cncal\\Getui\\GetuiServiceProvider"
+            ],
+            "aliases": {
+                "Getui": "Cncal\\Getui\\Facade\\Getui"
+            }
         }
     }
 }

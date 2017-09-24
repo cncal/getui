@@ -18,9 +18,25 @@ class GetuiTemplate
     protected $app_key;
 
     /**
-     * @var array
+     * Whether or not the phone rings when receive push message.
+     *
+     * @var bool
      */
-    protected $config;
+    protected $is_ring;
+
+    /**
+     * Whether or not the phone vibrates when receive push message.
+     *
+     * @var bool
+     */
+    protected $is_vibrate;
+
+    /**
+     * Whether or not the push message is clearable.
+     *
+     * @var bool
+     */
+    protected $is_clearable;
 
     /**
      * Template type.
@@ -39,17 +55,17 @@ class GetuiTemplate
     /**
      * GetuiTemplate constructor.
      *
-     * @param $app_id
-     * @param $app_key
-     * @param $config
      * @param $type
      * @param $template_data
      */
-    public function __construct($app_id, $app_key, $config, $type, $template_data)
+    public function __construct($type, $template_data)
     {
-        $this->app_id = $app_id;
-        $this->app_key = $app_key;
-        $this->config = $config;
+        $config = config('getui');
+        $this->app_id = $config['basic']['app_id'];
+        $this->app_key = $config['basic']['app_key'];
+        $this->is_ring = $config['push']['is_ring'];
+        $this->is_vibrate = $config['push']['is_vibrate'];
+        $this->is_clearable = $config['push']['is_clearable'];
         $this->type = $type;
         $this->template_data = $template_data;
     }
@@ -91,9 +107,9 @@ class GetuiTemplate
         $template->set_transmissionContent($transmission_content);
         $template->set_title($title);
         $template->set_text($text);
-        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->config['push']['is_ring']);
-        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->config['push']['is_vibrate']);
-        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->config['push']['is_clearable']);
+        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
+        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
+        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
 
         if(isset($begin_at) && isset($end_at))
         {
@@ -120,9 +136,9 @@ class GetuiTemplate
         $template->set_title($title);
         $template->set_text($text);
         $template->set_url($url);
-        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->config['push']['is_ring']);
-        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->config['push']['is_vibrate']);
-        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->config['push']['is_clearable']);
+        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
+        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
+        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
 
         if(isset($begin_at) && isset($end_at))
         {
@@ -165,9 +181,9 @@ class GetuiTemplate
         $template->set_isAutoInstall(isset($is_auto_install) ? (boolean)$is_auto_install : false);
         $template->set_isActived(isset($is_actived) ? (boolean)$is_actived : false);
 
-        $template->set_isBelled(isset($is_ring) ? (boolean)$is_ring : $this->config['push']['is_ring']);
-        $template->set_isVibrationed(isset($is_vibrate) ? (boolean)$is_vibrate : $this->config['push']['is_vibrate']);
-        $template->set_isCleared(isset($is_clearable) ? (boolean)$is_clearable : $this->config['push']['is_clearable']);
+        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
+        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
+        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
         if(isset($begin_at) && isset($end_at))
         {
             $template->set_duration(
