@@ -15,7 +15,7 @@ class Util
             $text = $input;
             $text = str_replace("\\", "\\\\", $text);
             //$text = str_replace('/', "\\/",   $text);
-            $text = str_replace('"', "\\".'"', $text);
+            $text = str_replace('"', "\\" . '"', $text);
             $text = str_replace("\b", "\\b", $text);
             $text = str_replace("\t", "\\t", $text);
             $text = str_replace("\n", "\\n", $text);
@@ -27,7 +27,7 @@ class Util
             $arr = array();
             $is_obj = is_object($input) || (array_keys($input) !== range(0, count($input) - 1));
 
-            foreach($input as $k => $v) {
+            foreach ($input as $k => $v) {
                 if ($is_obj) {
                     $arr[] = self::json_encode($k) . ':' . self::json_encode($v);
                 } else {

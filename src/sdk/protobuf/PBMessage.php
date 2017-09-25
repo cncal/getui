@@ -6,6 +6,7 @@ namespace Cncal\Getui\Sdk\Protobuf;
  * Use of all files needed to parse messages
  * @author Nikolai Kordulla
  */
+
 use Cncal\Getui\Sdk\Protobuf\Encoding\PBBase128;
 use Cncal\Getui\Sdk\Protobuf\Type\PBScalar;
 use Cncal\Getui\Sdk\Protobuf\Type\PBEnum;
@@ -58,7 +59,7 @@ abstract class PBMessage
     /**
      * Constructor - initialize base128 class
      */
-    public function __construct($reader=null)
+    public function __construct($reader = null)
     {
         $this->reader = $reader;
         $this->value = $this;
@@ -75,7 +76,7 @@ abstract class PBMessage
         $binstring = decbin($number);
         $types = array();
         $low = substr($binstring, strlen($binstring) - 3, strlen($binstring));
-        $high = substr($binstring,0, strlen($binstring) - 3) . '0000';
+        $high = substr($binstring, 0, strlen($binstring) - 3) . '0000';
         $types['wired'] = bindec($low);
         $types['field'] = bindec($binstring) >> 3;
         return $types;
@@ -85,7 +86,7 @@ abstract class PBMessage
      * Encodes a Message
      * @return string the encoded message
      */
-    public function SerializeToString($rec=-1)
+    public function SerializeToString($rec = -1)
     {
         $string = '';
         // wired and type
@@ -157,7 +158,7 @@ abstract class PBMessage
     /**
      * Internal function
      */
-    private function _ParseFromArray($length=99999999)
+    private function _ParseFromArray($length = 99999999)
     {
         $_begin = $this->reader->get_pointer();
         while ($this->reader->get_pointer() - $_begin < $length) {
@@ -236,7 +237,7 @@ abstract class PBMessage
      */
     protected function _remove_last_arr_value($index)
     {
-    	array_pop($this->values[$index]);
+        array_pop($this->values[$index]);
     }
 
     /**
@@ -317,11 +318,11 @@ abstract class PBMessage
             $class->parseFromString($this->_d_string);
         return $this->_d_string;
     }
-    
- 	/**
+
+    /**
      * Fix Memory Leaks with Objects in PHP 5
      * http://paul-m-jones.com/?p=262
-     * 
+     *
      * thanks to cheton
      * http://code.google.com/p/pb4php/issues/detail?id=3&can=1
      */
@@ -337,7 +338,7 @@ abstract class PBMessage
 
         // base128
         if (isset($this->base128)) {
-           unset($this->base128);
+            unset($this->base128);
         }
 
         // fields
@@ -350,8 +351,7 @@ abstract class PBMessage
         }
 
         // values
-        if (isset($this->values))
-        {
+        if (isset($this->values)) {
             foreach ($this->values as $name => $value) {
                 if (is_array($value)) {
                     foreach ($value as $name2 => $value2) {
@@ -361,9 +361,8 @@ abstract class PBMessage
                         unset($value2);
                     }
                     if (isset($name2))
-                    	unset($value->$name2);
-                }
-                else {
+                        unset($value->$name2);
+                } else {
                     if (is_object($value) AND method_exists($value, '__destruct')) {
                         $value->__destruct();
                     }
@@ -389,7 +388,7 @@ abstract class PBMessage
             "Cncal\\Getui\\Sdk\\IGetui\\Req\\",
         ];
 
-        if(substr($className, 0, 2) == 'PB') {
+        if (substr($className, 0, 2) == 'PB') {
             $namespace = $namespace_array[0];
         } else {
             $namespace = $namespace_array[1];
@@ -398,4 +397,5 @@ abstract class PBMessage
         return $namespace . $className;
     }
 }
+
 ?>

@@ -22,7 +22,7 @@ Class Payload
         return $this->params;
     }
 
-    function  setParams($params)
+    function setParams($params)
     {
         $this->params = $params;
     }
@@ -95,7 +95,7 @@ Class Payload
         return $this->alertLocKey;
     }
 
-    function  setAlertLocKey($alertLocKey)
+    function setAlertLocKey($alertLocKey)
     {
         $this->alertLocKey = $alertLocKey;
     }
@@ -174,7 +174,7 @@ Class Payload
         }
 
         if ($this->getContentAvailable() == 1) {
-            $apsObj["content-available"]=1;
+            $apsObj["content-available"] = 1;
         }
 
         $object[$this->APS] = $apsObj;

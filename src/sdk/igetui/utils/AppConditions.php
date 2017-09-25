@@ -53,4 +53,5 @@ class AppConditions
         return $this->condition;
     }
 }
+
 ?>

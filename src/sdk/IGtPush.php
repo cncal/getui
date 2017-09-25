@@ -16,24 +16,24 @@ Class IGtPush
     var $host = '';
     var $needDetails = false;
     static $appkeyUrlList = array();
-    var $domainUrlList =  array();
-	var $useSSL = NULL; //是否使用https连接 以该标志为准
+    var $domainUrlList = array();
+    var $useSSL = NULL; //是否使用https连接 以该标志为准
 
     public function __construct($domainUrl, $appkey, $masterSecret, $ssl = NULL)
     {
         $this->appkey = $appkey;
         $this->masterSecret = $masterSecret;
-		
-		$domainUrl = trim($domainUrl);
 
-		if ($ssl == NULL && $domainUrl != NULL && strpos(strtolower($domainUrl), "https:") === 0) {
-			$ssl = true;
-		}
+        $domainUrl = trim($domainUrl);
 
-		$this->useSSL = ($ssl == NULL ? false : $ssl);
-		
+        if ($ssl == NULL && $domainUrl != NULL && strpos(strtolower($domainUrl), "https:") === 0) {
+            $ssl = true;
+        }
+
+        $this->useSSL = ($ssl == NULL ? false : $ssl);
+
         if ($domainUrl == NULL || strlen($domainUrl) == 0) {
-            $this->domainUrlList =  GTConfig::getDefaultDomainUrl($this->useSSL);
+            $this->domainUrlList = GTConfig::getDefaultDomainUrl($this->useSSL);
         } else {
             $this->domainUrlList = array($domainUrl);
         }
@@ -44,9 +44,9 @@ Class IGtPush
     private function initOSDomain($hosts)
     {
         if ($hosts == null || count($hosts) == 0) {
-            $hosts = isset(self::$appkeyUrlList[$this->appkey])?self::$appkeyUrlList[$this->appkey]:null;
+            $hosts = isset(self::$appkeyUrlList[$this->appkey]) ? self::$appkeyUrlList[$this->appkey] : null;
             if ($hosts == null || count($hosts) == 0) {
-                $hosts = $this->getOSPushDomainUrlList($this->domainUrlList,$this->appkey);
+                $hosts = $this->getOSPushDomainUrlList($this->domainUrlList, $this->appkey);
                 self::$appkeyUrlList[$this->appkey] = $hosts;
             }
         } else {
@@ -58,17 +58,17 @@ Class IGtPush
         return $this->host;
     }
 
-    public function getOSPushDomainUrlList($domainUrlList,$appkey)
+    public function getOSPushDomainUrlList($domainUrlList, $appkey)
     {
         $urlList = null;
         $postData = array();
-        $postData['action']='getOSPushDomailUrlListAction';
+        $postData['action'] = 'getOSPushDomailUrlListAction';
         $postData['appkey'] = $appkey;
         $ex = null;
-        foreach($domainUrlList as $durl) {
+        foreach ($domainUrlList as $durl) {
             try {
-                $response = $this->httpPostJSON($durl,$postData);
-                $urlList =  isset($response["osList"])?$response["osList"]:null;
+                $response = $this->httpPostJSON($durl, $postData);
+                $urlList = isset($response["osList"]) ? $response["osList"] : null;
                 if ($urlList != null && count($urlList) > 0) {
                     break;
                 }
@@ -78,14 +78,14 @@ Class IGtPush
         }
 
         if ($urlList == null || count($urlList) <= 0) {
-			$h = implode(',', $domainUrlList);
-            throw new \Exception("Can not get hosts from ".$h."|error:".$ex);
+            $h = implode(',', $domainUrlList);
+            throw new \Exception("Can not get hosts from " . $h . "|error:" . $ex);
         }
 
         return $urlList;
     }
 
-    function httpPostJSON($url,$data,$gzip=false)
+    function httpPostJSON($url, $data, $gzip = false)
     {
         if ($url == null) {
             $url = $this->host;
@@ -94,16 +94,16 @@ Class IGtPush
         $rep = HttpManager::httpPostJson($url, $data, $gzip);
 
         if ($rep != null) {
-            if ( 'sign_error' == $rep['result']) {
+            if ('sign_error' == $rep['result']) {
                 try {
                     if ($this->connect()) {
                         $rep = HttpManager::httpPostJson($url, $data, $gzip);
                     }
                 } catch (\Exception $e) {
-                    throw new \Exception("连接异常".$e);
+                    throw new \Exception("连接异常" . $e);
                 }
             } elseif ('domain_error' == $rep['result']) {
-                $this->initOSDomain(isset($rep["osList"])?$rep["osList"]:null);
+                $this->initOSDomain(isset($rep["osList"]) ? $rep["osList"] : null);
                 $rep = HttpManager::httpPostJson($url, $data, $gzip);
             }
         }
@@ -111,7 +111,7 @@ Class IGtPush
         return $rep;
     }
 
-    public  function connect()
+    public function connect()
     {
         $timeStamp = $this->micro_time();
         // 计算sign值
@@ -123,7 +123,7 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["timeStamp"] = $timeStamp;
         $params["sign"] = $sign;
-        $rep = HttpManager::httpPostJson($this->host,$params,false);
+        $rep = HttpManager::httpPostJson($this->host, $params, false);
 
         if ('success' == $rep['result']) {
             return true;
@@ -137,7 +137,7 @@ Class IGtPush
         $params = array();
         $params["action"] = "close";
         $params["appkey"] = $this->appKey;
-        HttpManager::httpPostJson($this->host,$params,false);
+        HttpManager::httpPostJson($this->host, $params, false);
     }
 
     /**
@@ -153,7 +153,7 @@ Class IGtPush
         }
 
         $params = $this->getSingleMessagePostData($message, $target, $requestId);
-        return $this->httpPostJSON($this->host,$params);
+        return $this->httpPostJSON($this->host, $params);
     }
 
 
@@ -161,7 +161,7 @@ Class IGtPush
     {
         $params = array();
         $params["action"] = "pushMessageToSingleAction";
-        $params["appkey"] = $this -> appkey;
+        $params["appkey"] = $this->appkey;
 
         if ($requestId != null) {
             $params["requestId"] = $requestId;
@@ -184,9 +184,9 @@ Class IGtPush
         return $params;
     }
 
-    public function getContentId($message,$taskGroupName = null)
+    public function getContentId($message, $taskGroupName = null)
     {
-        return $this->getListAppContentId($message,$taskGroupName);
+        return $this->getListAppContentId($message, $taskGroupName);
     }
 
     /**
@@ -200,7 +200,7 @@ Class IGtPush
         $params["action"] = "cancleContentIdAction";
         $params["appkey"] = $this->appKey;
         $params["contentId"] = $contentId;
-        $rep = $this->httpPostJSON($this->host,$params);
+        $rep = $this->httpPostJSON($this->host, $params);
         return $rep['result'] == 'ok' ? true : false;
     }
 
@@ -214,7 +214,7 @@ Class IGtPush
     {
         $params = array();
         $params["action"] = "pushMessageToListAction";
-        $params["appkey"] = $this-> appkey;
+        $params["appkey"] = $this->appkey;
         $params["contentId"] = $contentId;
         $needDetails = GTConfig::isPushListNeedDetails();
         $params["needDetails"] = $needDetails;
@@ -228,23 +228,23 @@ Class IGtPush
         }
 
         if (count($targetList) > $limit) {
-            throw new \Exception("target size:".count($targetList)." beyond the limit:".$limit);
+            throw new \Exception("target size:" . count($targetList) . " beyond the limit:" . $limit);
         }
 
         $clientIdList = array();
-        $aliasList= array();
+        $aliasList = array();
         $appId = null;
 
-        foreach($targetList as $target) {
+        foreach ($targetList as $target) {
             $targetCid = $target->get_clientId();
             $targetAlias = $target->get_alias();
             if ($targetCid != null) {
-                array_push($clientIdList,$targetCid);
-            } elseif($targetAlias != null) {
-                array_push($aliasList,$targetAlias);
+                array_push($clientIdList, $targetCid);
+            } elseif ($targetAlias != null) {
+                array_push($aliasList, $targetAlias);
             }
 
-            if($appId == null) {
+            if ($appId == null) {
                 $appId = $target->get_appId();
             }
         }
@@ -253,7 +253,7 @@ Class IGtPush
         $params["aliasList"] = $aliasList;
         $params["type"] = 2;
 
-        return $this->httpPostJSON($this->host,$params,true);
+        return $this->httpPostJSON($this->host, $params, true);
     }
 
     public function stop($contentId)
@@ -281,7 +281,7 @@ Class IGtPush
         return $this->httpPostJSON($this->host, $params);
     }
 
-    public  function setClientTag($appId, $clientId, $tags)
+    public function setClientTag($appId, $clientId, $tags)
     {
         $params = array();
         $params["action"] = "setTagAction";
@@ -302,7 +302,7 @@ Class IGtPush
         $params["contentId"] = $contentId;
         $params["type"] = 2;
 
-        return $this->httpPostJSON($this->host,$params);
+        return $this->httpPostJSON($this->host, $params);
     }
 
     private function getListAppContentId($message, $taskGroupName = null)
@@ -343,18 +343,18 @@ Class IGtPush
             }
         }
 
-        $rep = $this->httpPostJSON($this->host,$params);
+        $rep = $this->httpPostJSON($this->host, $params);
 
         if ($rep['result'] == 'ok') {
             return $rep['contentId'];
         } else {
-            throw new \Exception("host:[".$this->host."]" + "获取contentId失败:".$rep);
+            throw new \Exception("host:[" . $this->host . "]" + "获取contentId失败:" . $rep);
         }
     }
 
     public function getBatch()
     {
-        return new IGtBatch($this->appkey,$this);
+        return new IGtBatch($this->appkey, $this);
     }
 
     public function pushAPNMessageToSingle($appId, $deviceToken, $message)
@@ -366,7 +366,7 @@ Class IGtPush
         $params['DT'] = $deviceToken;
         $params['PI'] = base64_encode($message->get_data()->get_pushInfo()->SerializeToString());
 
-        return $this->httpPostJSON($this->host,$params);
+        return $this->httpPostJSON($this->host, $params);
     }
 
     /**
@@ -385,10 +385,11 @@ Class IGtPush
         $params["contentId"] = $contentId;
         $params["DTL"] = $deviceTokenList;
         $needDetails = GTConfig::isPushListNeedDetails();
-        $params["needDetails"]=$needDetails;
+        $params["needDetails"] = $needDetails;
 
-        return $this->httpPostJSON($this->host,$params);
+        return $this->httpPostJSON($this->host, $params);
     }
+
     /**
      * 获取apn contentId
      * @param $appId
@@ -402,11 +403,11 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
         $params["PI"] = base64_encode($message->get_data()->get_pushInfo()->SerializeToString());
-        $rep = $this->httpPostJSON($this->host,$params);
+        $rep = $this->httpPostJSON($this->host, $params);
         if ($rep['result'] == 'ok') {
             return $rep['contentId'];
         } else {
-            throw new \Exception("host:[".$this->host."]" + "获取contentId失败:".$rep);
+            throw new \Exception("host:[" . $this->host . "]" + "获取contentId失败:" . $rep);
         }
     }
 
@@ -419,14 +420,14 @@ Class IGtPush
         $params["alias"] = $alias;;
         $params["cid"] = $clientId;
 
-        return $this->httpPostJSON($this->host,$params);
+        return $this->httpPostJSON($this->host, $params);
     }
 
     public function bindAliasBatch($appId, $targetList)
     {
         $params = array();
         $aliasList = array();
-        foreach($targetList as  $target) {
+        foreach ($targetList as $target) {
             $user = array();
             $user["cid"] = $target->get_clientId();
             $user["alias"] = $target->get_alias();
@@ -437,7 +438,7 @@ Class IGtPush
         $params["appid"] = $appId;
         $params["aliaslist"] = $aliasList;
 
-        return $this->httpPostJSON($this->host,$params);
+        return $this->httpPostJSON($this->host, $params);
     }
 
     public function queryClientId($appId, $alias)
@@ -462,15 +463,14 @@ Class IGtPush
         return $this->httpPostJSON($this->host, $params);
     }
 
-    public function unBindAlias($appId, $alias, $clientId=null)
+    public function unBindAlias($appId, $alias, $clientId = null)
     {
         $params = array();
         $params["action"] = "alias_unbind";
         $params["appkey"] = $this->appkey;
         $params["appid"] = $appId;
         $params["alias"] = $alias;
-        if (!is_null($clientId) && trim($clientId) != "")
-        {
+        if (!is_null($clientId) && trim($clientId) != "") {
             $params["cid"] = $clientId;
         }
 
@@ -482,7 +482,7 @@ Class IGtPush
         return $this->unBindAlias($appId, $alias);
     }
 
-    public function getPushResult( $taskId)
+    public function getPushResult($taskId)
     {
         $params = array();
         $params["action"] = "getPushMsgResult";
@@ -491,19 +491,19 @@ Class IGtPush
 
         return $this->httpPostJson($this->host, $params);
     }
-	
-	public function getPushResultByTaskidList( $taskIdList)
+
+    public function getPushResultByTaskidList($taskIdList)
     {
-		return $this->getPushActionResultByTaskids($taskIdList, null);
-	}
-	
-	public function getPushActionResultByTaskids( $taskIdList, $actionIdList)
+        return $this->getPushActionResultByTaskids($taskIdList, null);
+    }
+
+    public function getPushActionResultByTaskids($taskIdList, $actionIdList)
     {
         $params = array();
         $params["action"] = "getPushMsgResultByTaskidList";
         $params["appkey"] = $this->appkey;
         $params["taskIdList"] = $taskIdList;
-		$params["actionIdList"] = $actionIdList;
+        $params["actionIdList"] = $actionIdList;
 
         return $this->httpPostJson($this->host, $params);
     }
@@ -528,7 +528,7 @@ Class IGtPush
         $params["tagList"] = $tagList;
         $limit = GTConfig::getTagListLimit();
         if (count($tagList) > $limit) {
-            throw new \Exception("tagList size:".count($tagList)." beyond the limit:".$limit);
+            throw new \Exception("tagList size:" . count($tagList) . " beyond the limit:" . $limit);
         }
 
         return $this->httpPostJSON($this->host, $params);
@@ -547,7 +547,7 @@ Class IGtPush
     public function queryAppPushDataByDate($appId, $date)
     {
         if (!LangUtils::validateDate($date)) {
-            throw new \Exception("DateError|".$date);
+            throw new \Exception("DateError|" . $date);
         }
         $params = array();
         $params["action"] = "queryAppPushData";
@@ -560,8 +560,8 @@ Class IGtPush
 
     public function queryAppUserDataByDate($appId, $date)
     {
-        if(!LangUtils::validateDate($date)) {
-            throw new \Exception("DateError|".$date);
+        if (!LangUtils::validateDate($date)) {
+            throw new \Exception("DateError|" . $date);
         }
 
         $params = array();

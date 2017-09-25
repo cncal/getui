@@ -8,14 +8,14 @@ class ApiUrlRespectUtils
     static $appKeyAndHost = array();
     static $appkeyAndLastExecuteTime = array();
 
-    public static function getFastest($appkey,$hosts)
+    public static function getFastest($appkey, $hosts)
     {
         if ($hosts == null || count($hosts) == 0) {
             throw new \Exception("Hosts cann't be null or size must greater than 0");
         }
 
         if (isset(ApiUrlRespectUtils::$appkeyAndFasterHost[$appkey]) &&
-            count(array_diff($hosts,isset(ApiUrlRespectUtils::$appKeyAndHost[$appkey])?ApiUrlRespectUtils::$appKeyAndHost[$appkey]:null)) == 0) {
+            count(array_diff($hosts, isset(ApiUrlRespectUtils::$appKeyAndHost[$appkey]) ? ApiUrlRespectUtils::$appKeyAndHost[$appkey] : null)) == 0) {
             return ApiUrlRespectUtils::$appkeyAndFasterHost[$appkey];
         } else {
             $fastest = ApiUrlRespectUtils::getFastestRealTime($hosts);
@@ -29,16 +29,16 @@ class ApiUrlRespectUtils
     {
         $mint = 60.0;
         $s_url = "";
-        for ($i = 0; $i<count($hosts); $i++) {
-            $start = array_sum(explode(" ",microtime()));
+        for ($i = 0; $i < count($hosts); $i++) {
+            $start = array_sum(explode(" ", microtime()));
             try {
-				$homepage = HttpManager::httpHead($hosts[$i]);
+                $homepage = HttpManager::httpHead($hosts[$i]);
             } catch (\Exception $e) {
                 echo($e);
             }
 
-            $ends = array_sum(explode(" ",microtime()));
-            $diff = $ends-$start;
+            $ends = array_sum(explode(" ", microtime()));
+            $diff = $ends - $start;
 
             if ($mint > $diff) {
                 $mint = $diff;
