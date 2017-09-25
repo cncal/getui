@@ -9,7 +9,7 @@ class LogUtils
     public static function debug($log)
     {
         if (self::$debug) {
-            echo date('y-m-d h:i:s',time()).($log) . "\r\n";
+            echo date('y-m-d h:i:s', time()) . ($log) . "\r\n";
         }
     }
 }

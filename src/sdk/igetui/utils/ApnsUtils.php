@@ -4,9 +4,9 @@ namespace Cncal\Getui\Sdk\IGetui\Utils;
 
 Class ApnsUtils
 {
-    static function validatePayloadLength($locKey, $locArgs, $message, $actionLocKey, $launchImage, $badge, $sound, $payload,$contentAvailable)
+    static function validatePayloadLength($locKey, $locArgs, $message, $actionLocKey, $launchImage, $badge, $sound, $payload, $contentAvailable)
     {
-        $json = ApnsUtils :: processPayload($locKey, $locArgs, $message, $actionLocKey, $launchImage, $badge, $sound, $payload,$contentAvailable);
+        $json = ApnsUtils:: processPayload($locKey, $locArgs, $message, $actionLocKey, $launchImage, $badge, $sound, $payload, $contentAvailable);
         return strlen($json);
     }
 
@@ -19,7 +19,7 @@ Class ApnsUtils
             $pb->setAlertLocKey(($locKey));
             // loc-args
             if ($locArgs != null && strlen($locArgs) > 0) {
-                $pb->setAlertLocArgs(explode(',',($locArgs)));
+                $pb->setAlertLocArgs(explode(',', ($locArgs)));
             }
 
             $isValid = true;
@@ -32,12 +32,12 @@ Class ApnsUtils
         }
 
         // action-loc-key
-        if ($actionLocKey!=null && strlen($actionLocKey) > 0) {
+        if ($actionLocKey != null && strlen($actionLocKey) > 0) {
             $pb->setAlertActionLocKey($actionLocKey);
         }
 
         // launch-image
-        if ($launchImage!=null && strlen($launchImage) > 0) {
+        if ($launchImage != null && strlen($launchImage) > 0) {
             $pb->setAlertLaunchImage($launchImage);
         }
 

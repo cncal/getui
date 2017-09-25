@@ -100,7 +100,7 @@ class GetuiTemplate
         // 解析模板数据
         extract($this->template_data);
 
-        $template =  new IGtNotificationTemplate();
+        $template = new IGtNotificationTemplate();
         $template->set_appId($this->app_id);
         $template->set_appkey($this->app_key);
         $template->set_transmissionType((int)$transmission_type);
@@ -129,7 +129,7 @@ class GetuiTemplate
         // 解析模板数据
         extract($this->template_data);
 
-        $template =  new IGtLinkTemplate();
+        $template = new IGtLinkTemplate();
         $template->set_appId($this->app_id);
         $template->set_appkey($this->app_key);
         $template->set_title($title);
@@ -157,7 +157,7 @@ class GetuiTemplate
         // 解析模板数据
         extract($this->template_data);
 
-        $template =  new IGtNotyPopLoadTemplate();
+        $template = new IGtNotyPopLoadTemplate();
         $template->set_appId($this->app_id);
         $template->set_appkey($this->app_key);
 
@@ -201,7 +201,7 @@ class GetuiTemplate
         // 解析模板数据
         extract($this->template_data);
 
-        $template =  new IGtTransmissionTemplate();
+        $template = new IGtTransmissionTemplate();
         $template->set_appId($this->app_id);
         $template->set_appkey($this->app_key);
         $template->set_transmissionType((int)$transmission_type);
@@ -211,7 +211,7 @@ class GetuiTemplate
             // APN高级推送
             $apn = new IGtAPNPayload();
 
-            if (isset($is_content_available) &&(bool)$is_content_available) {
+            if (isset($is_content_available) && (bool)$is_content_available) {
                 $apn->contentAvailable = 1;
             } else {
                 $apn->contentAvailable = 0;

@@ -19,7 +19,7 @@ class IGtAPNPayload
         try {
             $apsMap = array();
             if ($this->alertMsg != null) {
-                $msg =  $this->alertMsg->get_alertMsg();
+                $msg = $this->alertMsg->get_alertMsg();
                 if ($msg != null) {
                     $apsMap["alert"] = $msg;
                 }
@@ -29,7 +29,7 @@ class IGtAPNPayload
                 $apsMap["badge"] = $this->badge;
             }
 
-            if ($this -> sound == null || $this->sound == '' ) {
+            if ($this->sound == null || $this->sound == '') {
                 $apsMap["sound"] = 'default';
             } elseif ($this->sound != $this->APN_SOUND_SILENCE) {
                 $apsMap["sound"] = $this->sound;

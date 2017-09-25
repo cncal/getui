@@ -5,6 +5,7 @@ namespace Cncal\Getui\Sdk;
 use Cncal\Getui\Sdk\IGetui\SingleBatchItem;
 use Cncal\Getui\Sdk\IGetui\Utils\GTConfig;
 use Cncal\Getui\Sdk\IGetui\SingleBatchRequest;
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -48,7 +49,7 @@ class IGtBatch
 
     public function createSingleJson($message, $target)
     {
-        $params = $this->push->getSingleMessagePostData($message,$target);
+        $params = $this->push->getSingleMessagePostData($message, $target);
         return json_encode($params);
     }
 
@@ -56,7 +57,7 @@ class IGtBatch
     {
         $requestId = uniqid();
         $data = array();
-        $data["appkey"]=$this->APPKEY;
+        $data["appkey"] = $this->APPKEY;
         $data["serialize"] = "pb";
         $data["async"] = GTConfig::isPushSingleBatchAsync();
         $data["action"] = "pushMessageToSingleBatchAction";

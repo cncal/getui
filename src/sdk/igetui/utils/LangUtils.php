@@ -8,11 +8,11 @@ class LangUtils
 
     public static function validateDate($date)
     {
-        if($date == null) {
+        if ($date == null) {
             return false;
         }
 
-        if(!preg_match(LangUtils::$REGEX,$date)) {
+        if (!preg_match(LangUtils::$REGEX, $date)) {
             return false;
         }
 

@@ -25,7 +25,7 @@ class GetuiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('getui', function($app) {
+        $this->app->singleton('getui', function ($app) {
             return new Getui;
         });
     }

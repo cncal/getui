@@ -46,9 +46,9 @@ class IGtBaseTemplate
 
     function get_durcondition()
     {
-		if ($this->duration == null || $this->duration == '') {
-			return "";
-		}
+        if ($this->duration == null || $this->duration == '') {
+            return "";
+        }
 
         return "duration=" . $this->duration;
     }
@@ -77,12 +77,12 @@ class IGtBaseTemplate
 
     }
 
-    function  get_transmissionContent()
+    function get_transmissionContent()
     {
         return null;
     }
 
-    function  get_pushType()
+    function get_pushType()
     {
         return null;
     }
@@ -133,7 +133,7 @@ class IGtBaseTemplate
 
         $apn->alertMsg = $alertMsg;
 
-        if ($badge != null ) {
+        if ($badge != null) {
             $apn->badge = $badge;
         }
 
@@ -141,7 +141,7 @@ class IGtBaseTemplate
             $apn->sound = $sound;
         }
 
-        if ($contentAvailable != null ) {
+        if ($contentAvailable != null) {
             $apn->contentAvailable = $contentAvailable;
         }
 
@@ -175,12 +175,12 @@ class IGtBaseTemplate
         $this->pushInfo->set_invalidAPN(false);
     }
 
-    function  set_appId($appId)
+    function set_appId($appId)
     {
         $this->appId = $appId;
     }
 
-    function  set_appkey($appkey)
+    function set_appkey($appkey)
     {
         $this->appkey = $appkey;
     }

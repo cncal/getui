@@ -49,7 +49,7 @@ class DictionaryAlertMsg implements ApnMsg
             $alertMap["launch-image"] = $this->launchImage;
         }
 
-        if(count($alertMap) == 0) {
+        if (count($alertMap) == 0) {
             return null;
         }
 
