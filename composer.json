@@ -12,8 +12,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "illuminate/queue": "5.5.*",
-        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*"
+        "illuminate/support": ">= 5.1"
     },
     "autoload": {
         "psr-4": {
@@ -26,7 +25,7 @@
                 "Cncal\\Getui\\GetuiServiceProvider"
             ],
             "aliases": {
-                "Getui": "Cncal\\Getui\\Facade\\Getui"
+                "Getui": "Cncal\\Getui\\Facades\\Getui"
             }
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Utils;
 
 class AppConditions
@@ -13,7 +14,8 @@ class AppConditions
     //条件
     var $condition = array();
 
-    function __call($name, $args) {
+    function __call($name, $args)
+    {
         if ($name == 'addCondition') {
             switch (count($args)) {
                 case 2:
@@ -30,22 +32,25 @@ class AppConditions
         }
     }
 
-    function addCondition3($key, $values, $optType = 0) {
+    function addCondition3($key, $values, $optType = 0)
+    {
         $item = array();
         $item["key"] = $key;
         $item["values"] = $values;
         $item["optType"] = $optType;
         $this->condition[] = $item;
+
         return $this;
     }
 
-    function addCondition2($key, $values) {
+    function addCondition2($key, $values)
+    {
         return $this->addCondition3($key, $values, 0);
     }
 
-    function getCondition() {
+    function getCondition()
+    {
         return $this->condition;
     }
 }
-
 ?>

@@ -10,15 +10,16 @@
 $ composer require cncal/getui
 ```
 
-* 如果 package 版本为 `0.0.*`, 添加 `GetuiServiceProvider` 至 `config/app` 的 `providers`：
-```php
-Cncal\Getui\GetuiServiceProvider::class,
-```
+* 如果 Laravel 版本小于5.5：
+    * 添加 `GetuiServiceProvider` 至 `config/app` 的 `providers`：
+    ```php
+    Cncal\Getui\GetuiServiceProvider::class,
+    ```
 
-* 如果 package 版本为 `0.0.*`, 添加 Facade 至 `config/app` 的 `aliases`：
-```php
-'Getui' => Cncal\Getui\Facades\Getui::class,
-```
+    * 添加 Facade 至 `config/app` 的 `aliases`：
+    ```php
+    'Getui' => Cncal\Getui\Facades\Getui::class,
+    ```
 
 * 发布配置文件 `config/getui.php`：
 ```php
@@ -179,8 +180,8 @@ Getui::pushMessageToApp($data);
                'transmission_content' => 'It is transmission content',
                'is_ring' => false,
                'is_clearable' => false,
-               'begin_at' => '2017-08-01 09:00:00',
-               'end_at' => '2017-08-02 17:00:00',
+               'begin_at' => date('Y-m-d H:i:s'),
+               'end_at' => date('Y-m-d H:i:s', strtotime("+1 day")),
            ],
            'cid' => 'target cid',
        ];
@@ -190,8 +191,9 @@ Getui::pushMessageToApp($data);
     
 * 版本更新说明：
     * v0.1.0: 
-        * 针对 Laravel5.5LTS 新功能 Package Discovery 更新 `composer.json`；
         * 新功能：支持队列
+        * 针对 Laravel5.5LTS 新功能 Package Discovery 更新 `composer.json`
+        * 规范 coding style
     * v0.0.3：修复 ios 透传消息无法增加自定义数据的 bug
     * v0.0.2：向指定的用户列表推送消息
     * v0.0.1：支持个推服务器端 PHP SDK 4.0.1.5

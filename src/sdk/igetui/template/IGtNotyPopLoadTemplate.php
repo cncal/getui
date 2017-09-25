@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\Req\ActionChain;
@@ -8,7 +9,8 @@ use Cncal\Getui\Sdk\IGetui\Req\InnerFiled_Type;
 use Cncal\Getui\Sdk\IGetui\Req\Button;
 use Cncal\Getui\Sdk\IGetui\Req\AppStartUp;
 
-class IGtNotyPopLoadTemplate extends IGtBaseTemplate {
+class IGtNotyPopLoadTemplate extends IGtBaseTemplate
+{
 	/**
 	 * 通知栏图标
 	 */
@@ -86,7 +88,8 @@ class IGtNotyPopLoadTemplate extends IGtBaseTemplate {
     var $iosMark="";
 	var $notifyStyle = 0;
 	
-	public function  getActionChain() {
+	public function  getActionChain()
+    {
 		$actionChains = array();
 		//设置actionchain
 		$actionChain1 = new ActionChain();
@@ -198,72 +201,114 @@ class IGtNotyPopLoadTemplate extends IGtBaseTemplate {
 		return $actionChains;
 	}
 	
-	function  set_notyIcon($notyIcon) {
+	function  set_notyIcon($notyIcon)
+    {
 		$this->notyIcon = $notyIcon;
 	}
-	function  set_notyTitle($notyTitle) {
+
+	function  set_notyTitle($notyTitle)
+    {
 		$this->notyTitle = $notyTitle;
 	}
-	function  set_logoURL($logoURL) {
+
+	function  set_logoURL($logoURL)
+    {
 		$this->logoURL = $logoURL;
 	}
-	function  set_notyContent($notyContent) {
+
+	function  set_notyContent($notyContent)
+    {
 		$this->notyContent = $notyContent;
 	}
-	function  set_isCleared($isCleared) {
+
+	function  set_isCleared($isCleared)
+    {
 		$this->isCleared = $isCleared;
 	}
-	function  set_isBelled($isBelled) {
+
+	function  set_isBelled($isBelled)
+    {
 		$this->isBelled = $isBelled;
 	}
-	function  set_isVibrationed($isVibrationed) {
+
+	function  set_isVibrationed($isVibrationed)
+    {
 		$this->isVibrationed = $isVibrationed;
 	}
-	function  set_popTitle($popTitle) {
+
+	function  set_popTitle($popTitle)
+    {
 		$this->popTitle = $popTitle;
 	}
-	function  set_popContent($popContent) {
+
+	function  set_popContent($popContent)
+    {
 		$this->popContent = $popContent;
 	}
-	function  set_popImage($popImage) {
+
+	function  set_popImage($popImage)
+    {
 		$this->popImage = $popImage;
 	}
-	function  set_popButton1($popButton1) {
+
+	function  set_popButton1($popButton1)
+    {
 		$this->popButton1 = $popButton1;
 	}
-	function  set_popButton2($popButton2) {
+
+	function  set_popButton2($popButton2)
+    {
 		$this->popButton2 = $popButton2;
 	}
-	function  set_loadIcon($loadIcon) {
+
+	function  set_loadIcon($loadIcon)
+    {
 		$this->loadIcon = $loadIcon;
 	}
-	function  set_loadTitle($loadTitle) {
+
+	function  set_loadTitle($loadTitle)
+    {
 		$this->loadTitle = $loadTitle;
 	}
-	function  set_loadUrl($loadUrl) {
+
+	function  set_loadUrl($loadUrl)
+    {
 		$this->loadUrl = $loadUrl;
 	}
-	function  set_isAutoInstall($isAutoInstall) {
+
+	function  set_isAutoInstall($isAutoInstall)
+    {
 		$this->isAutoInstall = $isAutoInstall;
 	}
-	function  set_isActived($isActived) {
+
+	function  set_isActived($isActived)
+    {
 		$this->isActived = $isActived;
 	}
-    function set_symbianMark($symbianMark){
+
+    function set_symbianMark($symbianMark)
+    {
         $this->symbianMark = $symbianMark;
     }
-    function set_androidMark($androidMark){
+
+    function set_androidMark($androidMark)
+    {
         $this->androidMark = $androidMark;
     }
-    function set_iosMark($iosMark){
+
+    function set_iosMark($iosMark)
+    {
         $this->iosMark = $iosMark;
     }
-	function get_pushType(){
+
+	function get_pushType()
+    {
 		return "NotyPopLoadTemplate";
 	}
 	
-	function  set_notifyStyle($notifyStyle) {
-		if($notifyStyle != 1){
+	function  set_notifyStyle($notifyStyle)
+    {
+		if ($notifyStyle != 1) {
 			$this->notifyStyle = 0;
 		} else {
 			$this->notifyStyle = 1;

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Calvin
- * Date: 2017/7/2
- * Time: 19:09
- */
 
 namespace Cncal\Getui\Sdk\IGetui\Req;
 
@@ -14,7 +8,8 @@ class MMPMessage extends PBMessage
 {
     var $wired_type = PBMessage::WIRED_LENGTH_DELIMITED;
 
-    public function __construct($reader = NULL) {
+    public function __construct($reader = NULL)
+    {
         parent::__construct($reader);
         $this->fields["2"] = "Transparent";
         $this->values["2"] = "";
@@ -36,67 +31,83 @@ class MMPMessage extends PBMessage
         $this->values["9"] = "";
     }
 
-    function transparent() {
+    function transparent()
+    {
         return $this->_get_value("2");
     }
 
-    function set_transparent($value) {
+    function set_transparent($value)
+    {
         return $this->_set_value("2", $value);
     }
 
-    function extraData() {
+    function extraData()
+    {
         return $this->_get_value("3");
     }
 
-    function set_extraData($value) {
+    function set_extraData($value)
+    {
         return $this->_set_value("3", $value);
     }
 
-    function msgType() {
+    function msgType()
+    {
         return $this->_get_value("4");
     }
 
-    function set_msgType($value) {
+    function set_msgType($value)
+    {
         return $this->_set_value("4", $value);
     }
 
-    function msgTraceFlag() {
+    function msgTraceFlag()
+    {
         return $this->_get_value("5");
     }
 
-    function set_msgTraceFlag($value) {
+    function set_msgTraceFlag($value)
+    {
         return $this->_set_value("5", $value);
     }
 
-    function msgOfflineExpire() {
+    function msgOfflineExpire()
+    {
         return $this->_get_value("6");
     }
 
-    function set_msgOfflineExpire($value) {
+    function set_msgOfflineExpire($value)
+    {
         return $this->_set_value("6", $value);
     }
 
-    function isOffline() {
+    function isOffline()
+    {
         return $this->_get_value("7");
     }
 
-    function set_isOffline($value) {
+    function set_isOffline($value)
+    {
         return $this->_set_value("7", $value);
     }
 
-    function priority() {
+    function priority()
+    {
         return $this->_get_value("8");
     }
 
-    function set_priority($value) {
+    function set_priority($value)
+    {
         return $this->_set_value("8", $value);
     }
 
-    function cdnUrl() {
+    function cdnUrl()
+    {
         return $this->_get_value("9");
     }
 
-    function set_cdnUrl($value) {
+    function set_cdnUrl($value)
+    {
         return $this->_set_value("9", $value);
     }
 }

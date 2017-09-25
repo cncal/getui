@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Req;
 
 use Cncal\Getui\Sdk\Protobuf\Type\PBEnum;

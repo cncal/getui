@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: E3
- * Date: 2017/7/3
- * Time: 10:07
- */
 
 namespace Cncal\Getui\Sdk\IGetui\Utils;
 
@@ -38,9 +32,11 @@ Class Payload
         if ($this->params == null) {
             $this->params = array();
         }
+
         if ($this->APS == strtolower($key)) {
             throw new \Exception("the key can't be aps");
         }
+
         $this->params[$key] = $obj;
     }
 
@@ -155,6 +151,7 @@ Class Payload
                 $alertObj = $this->putIntoJson("action-loc-key", ($this->getAlertActionLocKey()), $alertObj);
                 $alertObj = $this->putIntoJson("loc-key", ($this->getAlertLocKey()), $alertObj);
                 $alertObj = $this->putIntoJson("launch-image", ($this->getAlertLaunchImage()), $alertObj);
+
                 if ($this->getAlertLocArgs() != null) {
                     $array = array();
                     foreach ($this->getAlertLocArgs() as $str) {
@@ -162,25 +159,32 @@ Class Payload
                     }
                     $alertObj["loc-args"] = $array;
                 }
+
                 $apsObj["alert"] = $alertObj;
             }
         }
+
         if ($this->getBadge() != null) {
             $apsObj["badge"] = $this->getBadge();
         }
+
         // 判断是否静音
         if ("com.gexin.ios.silence" != ($this->getSound())) {
             $apsObj = $this->putIntoJson("sound", ($this->getSound()), $apsObj);
         }
-        if($this->getContentAvailable() == 1){
+
+        if ($this->getContentAvailable() == 1) {
             $apsObj["content-available"]=1;
         }
+
         $object[$this->APS] = $apsObj;
+
         if ($this->getParams() != null) {
             foreach ($this->getParams() as $key => $value) {
                 $object[($key)] = ($value);
             }
         }
+
         return Util::json_encode($object);
     }
 }

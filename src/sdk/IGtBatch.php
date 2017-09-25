@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk;
 
 use Cncal\Getui\Sdk\IGetui\SingleBatchItem;
@@ -62,10 +63,12 @@ class IGtBatch
         $data['requestId'] = $requestId;
         $singleBatchRequest = new SingleBatchRequest();
         $singleBatchRequest->set_batchId($this->batchId);
+
         foreach ($this->innerMsgList as $index => $innerMsg) {
             $singleBatchRequest->add_batchItem();
             $singleBatchRequest->set_batchItem($index, $innerMsg);
         }
+
         $data["singleDatas"] = base64_encode($singleBatchRequest->SerializeToString());
         $this->seqId = 0;
         $this->innerMsgList = array();

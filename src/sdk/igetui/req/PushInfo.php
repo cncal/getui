@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Req;
 
 use Cncal\Getui\Sdk\Protobuf\PBMessage;
@@ -7,7 +8,8 @@ class PushInfo extends PBMessage
 {
     var $wired_type = PBMessage::WIRED_LENGTH_DELIMITED;
 
-    public function __construct($reader = NULL) {
+    public function __construct($reader = NULL)
+    {
         parent::__construct($reader);
         $this->fields["1"] = "PBString";
         $this->values["1"] = "";
@@ -39,115 +41,143 @@ class PushInfo extends PBMessage
         $this->values["14"] = "";
     }
 
-    function message() {
+    function message()
+    {
         return $this->_get_value("1");
     }
 
-    function set_message($value) {
+    function set_message($value)
+    {
         return $this->_set_value("1", $value);
     }
 
-    function actionKey() {
+    function actionKey()
+    {
         return $this->_get_value("2");
     }
 
-    function set_actionKey($value) {
+    function set_actionKey($value)
+    {
         return $this->_set_value("2", $value);
     }
 
-    function sound() {
+    function sound()
+    {
         return $this->_get_value("3");
     }
 
-    function set_sound($value) {
+    function set_sound($value)
+    {
         return $this->_set_value("3", $value);
     }
 
-    function badge() {
+    function badge()
+    {
         return $this->_get_value("4");
     }
 
-    function set_badge($value) {
+    function set_badge($value)
+    {
         return $this->_set_value("4", $value);
     }
 
-    function payload() {
+    function payload()
+    {
         return $this->_get_value("5");
     }
 
-    function set_payload($value) {
+    function set_payload($value)
+    {
         return $this->_set_value("5", $value);
     }
 
-    function locKey() {
+    function locKey()
+    {
         return $this->_get_value("6");
     }
 
-    function set_locKey($value) {
+    function set_locKey($value)
+    {
         return $this->_set_value("6", $value);
     }
 
-    function locArgs() {
+    function locArgs()
+    {
         return $this->_get_value("7");
     }
 
-    function set_locArgs($value) {
+    function set_locArgs($value)
+    {
         return $this->_set_value("7", $value);
     }
 
-    function actionLocKey() {
+    function actionLocKey()
+    {
         return $this->_get_value("8");
     }
 
-    function set_actionLocKey($value) {
+    function set_actionLocKey($value)
+    {
         return $this->_set_value("8", $value);
     }
 
-    function launchImage() {
+    function launchImage()
+    {
         return $this->_get_value("9");
     }
 
-    function set_launchImage($value) {
+    function set_launchImage($value)
+    {
         return $this->_set_value("9", $value);
     }
 
-    function contentAvailable() {
+    function contentAvailable()
+    {
         return $this->_get_value("10");
     }
 
-    function set_contentAvailable($value) {
+    function set_contentAvailable($value)
+    {
         return $this->_set_value("10", $value);
     }
 
-    function invalidAPN() {
+    function invalidAPN()
+    {
         return $this->_get_value("11");
     }
 
-    function set_invalidAPN($value) {
+    function set_invalidAPN($value)
+    {
         return $this->_set_value("11", $value);
     }
 
-    function apnJson() {
+    function apnJson()
+    {
         return $this->_get_value("12");
     }
 
-    function set_apnJson($value) {
+    function set_apnJson($value)
+    {
         return $this->_set_value("12", $value);
     }
 
-    function invalidMPN() {
+    function invalidMPN()
+    {
         return $this->_get_value("13");
     }
 
-    function set_invalidMPN($value) {
+    function set_invalidMPN($value)
+    {
         return $this->_set_value("13", $value);
     }
 
-    function mpnXml() {
+    function mpnXml()
+    {
         return $this->_get_value("14");
     }
 
-    function set_mpnXml($value) {
+    function set_mpnXml($value)
+    {
         return $this->_set_value("14", $value);
     }
 }

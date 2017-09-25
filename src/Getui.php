@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui;
 
 use Cncal\Getui\Sdk\IGtPush;
@@ -70,8 +71,7 @@ class Getui
     {
         $config = config('getui');
         $this->app_id = $config['basic']['app_id'];
-        $this->igt = new IGtPush($config['basic']['host'], $config['basic']['app_id'],
-                                 $config['basic']['app_key'], $config['basic']['master_secret']);
+        $this->igt = new IGtPush($config['basic']['host'], $config['basic']['app_key'], $config['basic']['master_secret']);
         $this->is_offline = $config['push']['is_offline'];
         $this->offline_expire_time = $config['push']['offline_expire_time'];
         $this->network_type = $config['push']['network_type'];
@@ -95,24 +95,23 @@ class Getui
         $cid = $data['cid'];
 
         $is_off_line = isset($data['template_data']['is_offline']) ?
-            (bool)$data['template_data']['is_offline'] : $this->is_offline;
+                       (bool)$data['template_data']['is_offline'] : $this->is_offline;
 
         $offline_expire_time = isset($data['template_data']['is_offline']) ?
-            (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
-            $this->offline_expire_time * 1000 * 3600;
+                               (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
+                               $this->offline_expire_time * 1000 * 3600;
 
         $network_type = isset($data['template_data']['network_type']) ?
-            (int)$data['template_data']['network_type'] : $this->network_type;
+                        (int)$data['template_data']['network_type'] : $this->network_type;
 
-        //todo: need to discuss
+        // todo: need to discuss
         $getui_template = new GetuiTemplate($template_type, $template_data);
         $template = $getui_template->getTemplate();
 
         $message = new IGtSingleMessage();
         $message->set_isOffline($is_off_line);
 
-        if($is_off_line)
-        {
+        if ($is_off_line) {
             $message->set_offlineExpireTime($offline_expire_time);
         }
 
@@ -125,11 +124,11 @@ class Getui
         $target->set_clientId($cid);
 
         // 使用队列
-        if ($this->queue_is_used)
-        {
+        if ($this->queue_is_used) {
             PushGetuiMessage::dispatch($this->igt, 'pushMessageToSingle', $message, $target)
                             ->onConnection($this->queue_connection)
                             ->onQueue($this->queue_queue);
+
             return true;
         }
 
@@ -152,14 +151,14 @@ class Getui
         $template_data = $data['template_data'];
 
         $is_off_line = isset($data['template_data']['is_offline']) ?
-            (bool)$data['template_data']['is_offline'] : $this->is_offline;
+                       (bool)$data['template_data']['is_offline'] : $this->is_offline;
 
         $offline_expire_time = isset($data['template_data']['is_offline']) ?
-            (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
-            $this->offline_expire_time * 1000 * 3600;
+                               (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
+                               $this->offline_expire_time * 1000 * 3600;
 
         $network_type = isset($data['template_data']['network_type']) ?
-            (int)$data['template_data']['network_type'] : $this->network_type;
+                        (int)$data['template_data']['network_type'] : $this->network_type;
 
         $getui_template = new GetuiTemplate($template_type, $template_data);
         $template = $getui_template->getTemplate();
@@ -167,8 +166,7 @@ class Getui
         $message = new IGtListMessage();
         $message->set_isOffline($is_off_line);
 
-        if($is_off_line)
-        {
+        if ($is_off_line) {
             $message->set_offlineExpireTime($offline_expire_time);
         }
 
@@ -178,8 +176,7 @@ class Getui
         $contentId = $this->igt->getContentId($message);
 
         // 接收方列表
-        foreach ($data['cid_list'] as $cid)
-        {
+        foreach ($data['cid_list'] as $cid) {
             $target = new IGtTarget();
             $target->set_appId($this->app_id);
             $target->set_clientId($cid);
@@ -187,11 +184,11 @@ class Getui
         }
 
         // 使用队列
-        if ($this->queue_is_used)
-        {
+        if ($this->queue_is_used) {
             PushGetuiMessage::dispatch($this->igt, 'pushMessageToList', $contentId, $target_list)
                             ->onConnection($this->queue_connection)
                             ->onQueue($this->queue_queue);
+
             return true;
         }
 
@@ -214,14 +211,14 @@ class Getui
         $template_data = $data['template_data'];
 
         $is_off_line = isset($data['template_data']['is_offline']) ?
-            (bool)$data['template_data']['is_offline'] : $this->is_offline;
+                       (bool)$data['template_data']['is_offline'] : $this->is_offline;
 
         $offline_expire_time = isset($data['template_data']['is_offline']) ?
-            (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
-            $this->offline_expire_time * 1000 * 3600;
+                               (int)$data['template_data']['offline_expire_time'] * 1000 * 3600 :
+                               $this->offline_expire_time * 1000 * 3600;
 
         $network_type = isset($data['template_data']['network_type']) ?
-            (int)$data['template_data']['network_type'] : $this->network_type;
+                        (int)$data['template_data']['network_type'] : $this->network_type;
 
         // todo: need to discuss
         $getui_template = new GetuiTemplate($template_type, $template_data);
@@ -230,8 +227,7 @@ class Getui
         $message = new IGtAppMessage();
         $message->set_isOffline($is_off_line);
 
-        if($is_off_line)
-        {
+        if ($is_off_line) {
             $message->set_offlineExpireTime($offline_expire_time);
         }
 
@@ -240,11 +236,11 @@ class Getui
         $message->set_data($template);
 
         // 使用队列
-        if ($this->queue_is_used)
-        {
+        if ($this->queue_is_used) {
             PushGetuiMessage::dispatch($this->igt, 'pushMessageToApp', $message)
                             ->onConnection($this->queue_connection)
                             ->onQueue($this->queue_queue);
+
             return true;
         }
 

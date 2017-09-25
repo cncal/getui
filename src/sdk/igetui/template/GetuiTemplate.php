@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\IGtAPNPayload;
@@ -72,8 +73,7 @@ class GetuiTemplate
 
     public function getTemplate()
     {
-        switch ($this->type)
-        {
+        switch ($this->type) {
             case 1:
                 $template = $this->IGtNotificationTemplate();
                 break;
@@ -111,8 +111,7 @@ class GetuiTemplate
         $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
         $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
 
-        if(isset($begin_at) && isset($end_at))
-        {
+        if (isset($begin_at) && isset($end_at)) {
             $template->set_duration(
                 date_format(date_create($begin_at), 'Y-m-d H:i:s'),
                 date_format(date_create($end_at), 'Y-m-d H:i:s')
@@ -140,8 +139,7 @@ class GetuiTemplate
         $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
         $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
 
-        if(isset($begin_at) && isset($end_at))
-        {
+        if (isset($begin_at) && isset($end_at)) {
             $template->set_duration(
                 date_format(date_create($begin_at), 'Y-m-d H:i:s'),
                 date_format(date_create($end_at), 'Y-m-d H:i:s')
@@ -184,8 +182,8 @@ class GetuiTemplate
         $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
         $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
         $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
-        if(isset($begin_at) && isset($end_at))
-        {
+
+        if (isset($begin_at) && isset($end_at)) {
             $template->set_duration(
                 date_format(date_create($begin_at), 'Y-m-d H:i:s'),
                 date_format(date_create($end_at), 'Y-m-d H:i:s')
@@ -209,13 +207,11 @@ class GetuiTemplate
         $template->set_transmissionType((int)$transmission_type);
         $template->set_transmissionContent($transmission_content);
 
-        if(isset($is_ios) && (bool)$is_ios)
-        {
+        if (isset($is_ios) && (bool)$is_ios) {
             // APN高级推送
             $apn = new IGtAPNPayload();
 
-            if(isset($is_content_available) &&(bool)$is_content_available)
-            {
+            if (isset($is_content_available) &&(bool)$is_content_available) {
                 $apn->contentAvailable = 1;
             } else {
                 $apn->contentAvailable = 0;
@@ -226,20 +222,16 @@ class GetuiTemplate
                 $apn->alertMsg = $alertmsg;
             }
 
-            if(isset($badge))
-            {
+            if (isset($badge)) {
                 $apn->badge = (int)$badge;
             }
 
-            if(isset($sound))
-            {
+            if (isset($sound)) {
                 $apn->sound = $sound;
             }
 
-            if(isset($custom_msg) && count($custom_msg) > 0)
-            {
-                foreach ($custom_msg as $key => $value)
-                {
+            if (isset($custom_msg) && count($custom_msg) > 0) {
+                foreach ($custom_msg as $key => $value) {
                     $apn->add_customMsg($key, $value);
                 }
             }

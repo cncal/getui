@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Utils;
 
 Class ApnsUtils
@@ -20,6 +21,7 @@ Class ApnsUtils
             if ($locArgs != null && strlen($locArgs) > 0) {
                 $pb->setAlertLocArgs(explode(',',($locArgs)));
             }
+
             $isValid = true;
         }
 
@@ -41,9 +43,10 @@ Class ApnsUtils
 
         // badge
         $badgeNum = -1;
-        if(is_numeric($badge)){
+        if (is_numeric($badge)) {
             $badgeNum = (int)$badge;
         }
+
         if ($badgeNum >= 0) {
             $pb->setBadge($badgeNum);
             $isValid = true;
@@ -67,13 +70,16 @@ Class ApnsUtils
             $pb->addParam("payload", ($payload));
         }
 
-        if($isValid == false) {
+        if ($isValid == false) {
             throw new \Exception("one of the params(locKey,message,badge) must not be null or contentAvailable must be 1");
         }
+
         $json = $pb->toString();
-        if($json == null){
+
+        if ($json == null) {
             throw new \Exception("payload json is null");
         }
+
         return $json;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\Exception;
 
 use Exception;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Utils;
 
 use Cncal\Getui\Sdk\Exception\GetuiException;
@@ -9,7 +10,7 @@ class HttpManager
 
     private static function httpPost($url, $data, $gzip, $action)
     {
-        if(!isset(self::$curls[$url])){
+        if (!isset(self::$curls[$url])) {
             $curl = curl_init($url);
             self::$curls[$url] = $curl;
         }
@@ -26,20 +27,23 @@ class HttpManager
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         $header = array("Content-Type:text/html;charset=UTF-8", "Connection: Keep-Alive");
+
         if ($gzip) {
             $data = gzencode($data, 9);
             array_push($header,'Accept-Encoding:gzip');
             array_push($header,'Content-Encoding:gzip');
             curl_setopt($curl, CURLOPT_ENCODING, "gzip");
         }
-        if(!is_null($action))
-        {
+
+        if (!is_null($action)) {
             array_push($header,"Gt-Action:".$action);
         }
+
         curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
         $curl_version = curl_version();
+
         if ($curl_version['version_number'] >= 462850) {
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, 30000);
             curl_setopt($curl, CURLOPT_NOSIGNAL, 1);
@@ -68,6 +72,7 @@ class HttpManager
         curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
 
         $curl_version = curl_version();
+
         if ($curl_version['version_number'] >= 462850) {
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, 30000);
             curl_setopt($curl, CURLOPT_NOSIGNAL, 1);
@@ -78,15 +83,16 @@ class HttpManager
 		$result = self::exeBySetTimes(3, $curl);
 		
         curl_close($curl);
+
         return $result;
     }
 
     public static function httpPostJson($url, $params, $gzip)
     {
-        if(!isset($params["version"]))
-        {
+        if (!isset($params["version"])) {
             $params["version"] = GTConfig::getSDKVersion();
         }
+
         $action = $params["action"];
         $data = json_encode($params);
         $result = null;
@@ -113,6 +119,7 @@ class HttpManager
                 $result = self::exeBySetTimes($count, $curl);
             }
         }
+
         return $result;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\Protobuf\Type;
 
 use Cncal\Getui\Sdk\Protobuf\PBMessage;

@@ -1,18 +1,18 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\Req\ActionChain;
 use Cncal\Getui\Sdk\IGetui\Req\AppStartUp;
 use Cncal\Getui\Sdk\IGetui\Req\ActionChain_Type;
 
-class IGtTransmissionTemplate extends IGtBaseTemplate {
-
+class IGtTransmissionTemplate extends IGtBaseTemplate
+{
 	var $transmissionType;
 	var $transmissionContent;
 
 	public function  getActionChain()
     {
-
 		$actionChains = array();
 
 		// 设置actionChain
@@ -47,19 +47,23 @@ class IGtTransmissionTemplate extends IGtBaseTemplate {
 		return $actionChains;
 	}
 
-	function  get_transmissionContent() {
+	function  get_transmissionContent()
+    {
 		return $this->transmissionContent;
 	}
 	
-	function  get_pushType() {
+	function  get_pushType()
+    {
 		return 'TransmissionMsg';
 	}
 
-	function  set_transmissionType($transmissionType) {
+	function  set_transmissionType($transmissionType)
+    {
 		$this->transmissionType = $transmissionType;
 	}
 
-	function  set_transmissionContent($transmissionContent) {
+	function  set_transmissionContent($transmissionContent)
+    {
 		$this->transmissionContent = $transmissionContent;
 	}
 }

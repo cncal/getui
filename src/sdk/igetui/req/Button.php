@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Calvin
- * Date: 2017/7/2
- * Time: 18:37
- */
 
 namespace Cncal\Getui\Sdk\IGetui\Req;
 
@@ -14,7 +8,8 @@ class Button extends PBMessage
 {
     var $wired_type = PBMessage::WIRED_LENGTH_DELIMITED;
 
-    public function __construct($reader = NULL) {
+    public function __construct($reader = NULL)
+    {
         parent::__construct($reader);
         $this->fields["1"] = "PBString";
         $this->values["1"] = "";
@@ -22,19 +17,23 @@ class Button extends PBMessage
         $this->values["2"] = "";
     }
 
-    function text() {
+    function text()
+    {
         return $this->_get_value("1");
     }
 
-    function set_text($value) {
+    function set_text($value)
+    {
         return $this->_set_value("1", $value);
     }
 
-    function next() {
+    function next()
+    {
         return $this->_get_value("2");
     }
 
-    function set_next($value) {
+    function set_next($value)
+    {
         return $this->_set_value("2", $value);
     }
 }

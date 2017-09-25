@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\Protobuf\Type;
 
 use Cncal\Getui\Sdk\Protobuf\PBMessage;
@@ -27,8 +28,7 @@ class PBInt extends PBScalar
 		// first byte is length byte
 		$string = '';
 
-		if ($rec > -1)
-		{
+		if ($rec > -1) {
 			$string .= $this->base128->set_value($rec << 3 | $this->wired_type);
 		}
 

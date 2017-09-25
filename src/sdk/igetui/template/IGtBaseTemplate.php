@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\Req\PushInfo;
@@ -45,10 +46,10 @@ class IGtBaseTemplate
 
     function get_durcondition()
     {
-		if ($this->duration == null || $this->duration == '')
-		{
+		if ($this->duration == null || $this->duration == '') {
 			return "";
 		}
+
         return "duration=" . $this->duration;
     }
 
@@ -110,45 +111,44 @@ class IGtBaseTemplate
         $apn = new IGtAPNPayload();
 
         $alertMsg = new DictionaryAlertMsg();
-        if ($actionLocKey != null && $actionLocKey != '')
-        {
+        if ($actionLocKey != null && $actionLocKey != '') {
             $alertMsg->actionLocKey = $actionLocKey;
         }
-        if ($message != null && $message != '')
-        {
+
+        if ($message != null && $message != '') {
             $alertMsg->body = $message;
         }
-        if ($locKey != null && $locKey != '')
-        {
+
+        if ($locKey != null && $locKey != '') {
             $alertMsg->locKey = $locKey;
         }
-        if ($locArgs != null && $locArgs != '')
-        {
+
+        if ($locArgs != null && $locArgs != '') {
             array_push($alertMsg->locArgs, $locArgs);
         }
 
-        if ($launchImage != null && $launchImage != '')
-        {
+        if ($launchImage != null && $launchImage != '') {
             $alertMsg->launchImage = $launchImage;
         }
+
         $apn->alertMsg = $alertMsg;
 
-        if ($badge != null )
-        {
+        if ($badge != null ) {
             $apn->badge = $badge;
         }
-        if ($sound != null && $sound != '')
-        {
+
+        if ($sound != null && $sound != '') {
             $apn->sound = $sound;
         }
-        if ($contentAvailable != null )
-        {
+
+        if ($contentAvailable != null ) {
             $apn->contentAvailable = $contentAvailable;
         }
-        if ($payload != null && $payload != '')
-        {
+
+        if ($payload != null && $payload != '') {
             $apn->add_customMsg("payload", $payload);
         }
+
         $this->set_apnInfo($apn);
     }
 
@@ -157,14 +157,19 @@ class IGtBaseTemplate
         if ($payload == null) {
             return;
         }
+
         $payload = $payload->get_payload();
+
         if ($payload == null || $payload == "") {
             return;
         }
+
         $len = strlen($payload);
+
         if ($len > IGtAPNPayload::$PAYLOAD_MAX_BYTES) {
             throw new \Exception("APN payload length overlength (" . $len . ">" . IGtAPNPayload::$PAYLOAD_MAX_BYTES . ")");
         }
+
         $this->pushInfo = new PushInfo();
         $this->pushInfo->set_apnJson($payload);
         $this->pushInfo->set_invalidAPN(false);
@@ -185,6 +190,7 @@ class IGtBaseTemplate
         if (empty($str)) {
             return 0;
         }
+
         if (function_exists('mb_strlen')) {
             return mb_strlen($str, 'utf-8');
         } else {
@@ -192,6 +198,5 @@ class IGtBaseTemplate
             return count($ar[0]);
         }
     }
-
 
 }

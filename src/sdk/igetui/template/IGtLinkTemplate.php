@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\Req\ActionChain;
@@ -6,8 +7,8 @@ use Cncal\Getui\Sdk\IGetui\Req\InnerFiled;
 use Cncal\Getui\Sdk\IGetui\Req\ActionChain_Type;
 use Cncal\Getui\Sdk\IGetui\Req\InnerFiled_Type;
 
-class IGtLinkTemplate extends IGtBaseTemplate {
-
+class IGtLinkTemplate extends IGtBaseTemplate
+{
 	/**
 	*String 
 	*/
@@ -142,44 +143,54 @@ class IGtLinkTemplate extends IGtBaseTemplate {
 		return $actionChains;
 	}
 
-	function  get_pushType() {
+	function  get_pushType()
+    {
 		return 'LinkMsg';
 	}
 
-	function  set_text($text) {
+	function  set_text($text)
+    {
 		$this->text = $text;
 	}
 
-	function  set_title($title) {
+	function  set_title($title)
+    {
 		$this->title = $title;
 	}
 
-	function  set_logo($logo) {
+	function  set_logo($logo)
+    {
 		$this->logo = $logo;
 	}
 	
-	function  set_logoURL($logoURL) {
+	function  set_logoURL($logoURL)
+    {
 		$this->logoURL = $logoURL;
 	}
 
-	function  set_url($url) {
+	function  set_url($url)
+    {
 		$this->url = $url;
 	}
 
-	function  set_isRing($isRing) {
+	function  set_isRing($isRing)
+    {
 		$this->isRing = $isRing;
 	}
 
-	function  set_isVibrate($isVibrate) {
+	function  set_isVibrate($isVibrate)
+    {
 		$this->isVibrate = $isVibrate;
 	}
 
-	function  set_isClearable($isClearable) {
+	function  set_isClearable($isClearable)
+    {
 		$this->isClearable = $isClearable;
 	}
 	
-	function  set_notifyStyle($notifyStyle) {
-		if($notifyStyle != 1) {
+	function  set_notifyStyle($notifyStyle)
+    {
+		if ($notifyStyle != 1) {
 			$this->notifyStyle = 0;
 		} else {
 			$this->notifyStyle = 1;

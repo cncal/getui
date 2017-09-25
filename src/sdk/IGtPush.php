@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk;
 
 use Cncal\Getui\Sdk\IGetui\Utils\GTConfig;
@@ -25,15 +26,13 @@ Class IGtPush
 		
 		$domainUrl = trim($domainUrl);
 
-		if ($ssl == NULL && $domainUrl != NULL && strpos(strtolower($domainUrl), "https:") === 0)
-		{
+		if ($ssl == NULL && $domainUrl != NULL && strpos(strtolower($domainUrl), "https:") === 0) {
 			$ssl = true;
 		}
 
 		$this->useSSL = ($ssl == NULL ? false : $ssl);
 		
-        if ($domainUrl == NULL || strlen($domainUrl) == 0)
-        {
+        if ($domainUrl == NULL || strlen($domainUrl) == 0) {
             $this->domainUrlList =  GTConfig::getDefaultDomainUrl($this->useSSL);
         } else {
             $this->domainUrlList = array($domainUrl);
@@ -44,11 +43,9 @@ Class IGtPush
 
     private function initOSDomain($hosts)
     {
-        if ($hosts == null || count($hosts) == 0)
-        {
+        if ($hosts == null || count($hosts) == 0) {
             $hosts = isset(self::$appkeyUrlList[$this->appkey])?self::$appkeyUrlList[$this->appkey]:null;
-            if ($hosts == null || count($hosts) == 0)
-            {
+            if ($hosts == null || count($hosts) == 0) {
                 $hosts = $this->getOSPushDomainUrlList($this->domainUrlList,$this->appkey);
                 self::$appkeyUrlList[$this->appkey] = $hosts;
             }
@@ -68,14 +65,11 @@ Class IGtPush
         $postData['action']='getOSPushDomailUrlListAction';
         $postData['appkey'] = $appkey;
         $ex = null;
-        foreach($domainUrlList as $durl)
-        {
-            try
-            {
+        foreach($domainUrlList as $durl) {
+            try {
                 $response = $this->httpPostJSON($durl,$postData);
                 $urlList =  isset($response["osList"])?$response["osList"]:null;
-                if($urlList != null && count($urlList) > 0)
-                {
+                if ($urlList != null && count($urlList) > 0) {
                     break;
                 }
             } catch (\Exception $e) {
@@ -83,8 +77,7 @@ Class IGtPush
             }
         }
 
-        if($urlList == null || count($urlList) <= 0)
-        {
+        if ($urlList == null || count($urlList) <= 0) {
 			$h = implode(',', $domainUrlList);
             throw new \Exception("Can not get hosts from ".$h."|error:".$ex);
         }
@@ -94,32 +87,27 @@ Class IGtPush
 
     function httpPostJSON($url,$data,$gzip=false)
     {
-        if ($url == null)
-        {
+        if ($url == null) {
             $url = $this->host;
         }
 
         $rep = HttpManager::httpPostJson($url, $data, $gzip);
 
-        if ($rep != null)
-        {
+        if ($rep != null) {
             if ( 'sign_error' == $rep['result']) {
-                try
-                {
-                    if ($this->connect())
-                    {
+                try {
+                    if ($this->connect()) {
                         $rep = HttpManager::httpPostJson($url, $data, $gzip);
                     }
-                }
-                catch (\Exception $e)
-                {
+                } catch (\Exception $e) {
                     throw new \Exception("连接异常".$e);
                 }
-            } else if('domain_error' == $rep['result']) {
+            } elseif ('domain_error' == $rep['result']) {
                 $this->initOSDomain(isset($rep["osList"])?$rep["osList"]:null);
                 $rep = HttpManager::httpPostJson($url, $data, $gzip);
             }
         }
+
         return $rep;
     }
 
@@ -160,8 +148,7 @@ Class IGtPush
      ***/
     public function pushMessageToSingle($message, $target, $requestId = null)
     {
-        if($requestId == null || trim($requestId) == "")
-        {
+        if ($requestId == null || trim($requestId) == "") {
             $requestId = uniqid();
         }
 
@@ -170,13 +157,13 @@ Class IGtPush
     }
 
 
-    function getSingleMessagePostData($message, $target, $requestId = null){
+    function getSingleMessagePostData($message, $target, $requestId = null)
+    {
         $params = array();
         $params["action"] = "pushMessageToSingleAction";
         $params["appkey"] = $this -> appkey;
 
-        if($requestId != null)
-        {
+        if ($requestId != null) {
             $params["requestId"] = $requestId;
         }
 
@@ -233,34 +220,31 @@ Class IGtPush
         $params["needDetails"] = $needDetails;
         $async = GTConfig::isPushListAsync();
         $params["async"] = $async;
-        if($async && (!$needDetails))
-        {
+
+        if ($async && (!$needDetails)) {
             $limit = GTConfig::getAsyncListLimit();
         } else {
             $limit = GTConfig::getSyncListLimit();
         }
 
-        if(count($targetList) > $limit)
-        {
+        if (count($targetList) > $limit) {
             throw new \Exception("target size:".count($targetList)." beyond the limit:".$limit);
         }
 
         $clientIdList = array();
         $aliasList= array();
         $appId = null;
-        foreach($targetList as $target)
-        {
+
+        foreach($targetList as $target) {
             $targetCid = $target->get_clientId();
             $targetAlias = $target->get_alias();
-            if($targetCid != null)
-            {
+            if ($targetCid != null) {
                 array_push($clientIdList,$targetCid);
-            }elseif($targetAlias != null)
-            {
+            } elseif($targetAlias != null) {
                 array_push($aliasList,$targetAlias);
             }
-            if($appId == null)
-            {
+
+            if($appId == null) {
                 $appId = $target->get_appId();
             }
         }
@@ -268,6 +252,7 @@ Class IGtPush
         $params["clientIdList"] = $clientIdList;
         $params["aliasList"] = $aliasList;
         $params["type"] = 2;
+
         return $this->httpPostJSON($this->host,$params,true);
     }
 
@@ -278,10 +263,10 @@ Class IGtPush
         $params["appkey"] = $this->appkey;
         $params["contentId"] = $contentId;
         $rep = $this->httpPostJSON($this->host, $params);
-        if ("ok" == $rep["result"])
-        {
+        if ("ok" == $rep["result"]) {
             return true;
         }
+
         return false;
     }
 
@@ -324,7 +309,7 @@ Class IGtPush
     {
         $params = array();
         if (!is_null($taskGroupName) && trim($taskGroupName) != "") {
-            if(strlen($taskGroupName) > 40){
+            if (strlen($taskGroupName) > 40) {
                 throw new \Exception("TaskGroupName is OverLimit 40");
             }
             $params["taskGroupName"] = $taskGroupName;
@@ -340,7 +325,7 @@ Class IGtPush
         $params["pushType"] = $message->get_data()->get_pushType();
         $params["type"] = 2;
         //contentType 1是appMessage，2是listMessage
-        if ($message instanceof IGtListMessage){
+        if ($message instanceof IGtListMessage) {
             $params["contentType"] = 1;
         } else {
             $params["contentType"] = 2;
@@ -360,10 +345,9 @@ Class IGtPush
 
         $rep = $this->httpPostJSON($this->host,$params);
 
-        if ($rep['result'] == 'ok')
-        {
+        if ($rep['result'] == 'ok') {
             return $rep['contentId'];
-        } else{
+        } else {
             throw new \Exception("host:[".$this->host."]" + "获取contentId失败:".$rep);
         }
     }
@@ -543,8 +527,7 @@ Class IGtPush
         $params["appId"] = $appId;
         $params["tagList"] = $tagList;
         $limit = GTConfig::getTagListLimit();
-        if (count($tagList) > $limit)
-        {
+        if (count($tagList) > $limit) {
             throw new \Exception("tagList size:".count($tagList)." beyond the limit:".$limit);
         }
 
@@ -563,8 +546,7 @@ Class IGtPush
 
     public function queryAppPushDataByDate($appId, $date)
     {
-        if (!LangUtils::validateDate($date))
-        {
+        if (!LangUtils::validateDate($date)) {
             throw new \Exception("DateError|".$date);
         }
         $params = array();
@@ -578,8 +560,7 @@ Class IGtPush
 
     public function queryAppUserDataByDate($appId, $date)
     {
-        if(!LangUtils::validateDate($date))
-        {
+        if(!LangUtils::validateDate($date)) {
             throw new \Exception("DateError|".$date);
         }
 
@@ -598,8 +579,7 @@ Class IGtPush
         $params["action"] = "queryUserCount";
         $params["appkey"] = $this->appkey;
         $params["appId"] = $appId;
-        if (!is_null($appConditions))
-        {
+        if (!is_null($appConditions)) {
             $params["conditions"] = $appConditions->condition;
         }
 

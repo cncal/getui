@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\Protobuf\Reader;
 
 use Cncal\Getui\Sdk\Protobuf\Encoding\PBBase128;

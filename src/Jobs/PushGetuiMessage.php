@@ -13,12 +13,30 @@ class PushGetuiMessage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var IGtPush
+     */
     protected $igt;
 
+    /**
+     * Getui function.
+     *
+     * @var string
+     */
     protected $function;
 
+    /**
+     * Getui push message.
+     *
+     * @var array
+     */
     protected $message;
 
+    /**
+     * Getui push extra_param.
+     *
+     * @var mixed|null
+     */
     protected $extra_param;
 
     /**

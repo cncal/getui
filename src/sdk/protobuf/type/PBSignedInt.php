@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\Protobuf\Type;
 
 use Cncal\Getui\Sdk\Protobuf\PBMessage;
@@ -20,8 +21,8 @@ class PBSignedInt extends PBScalar
 
 		$saved = $this->value;
 		$this->value = round($this->value / 2);
-		if ($saved % 2 == 1)
-		{
+
+		if ($saved % 2 == 1) {
 			$this->value = -($this->value);
 		}
 	}
@@ -33,14 +34,13 @@ class PBSignedInt extends PBScalar
 	{
 		// now convert signed int to int
 		$save = $this->value;
-		if ($this->value < 0)
-		{
+
+		if ($this->value < 0) {
 			$this->value = abs($this->value)*2-1;
-		}
-		else 
-		{
+		} else {
 			$this->value = $this->value*2;
 		}
+
 		$string = parent::SerializeToString($rec);
 		// restore value
 		$this->value = $save;

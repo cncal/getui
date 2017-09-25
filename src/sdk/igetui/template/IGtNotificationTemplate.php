@@ -1,4 +1,5 @@
 <?php
+
 namespace Cncal\Getui\Sdk\IGetui\Template;
 
 use Cncal\Getui\Sdk\IGetui\Req\ActionChain;
@@ -7,8 +8,8 @@ use Cncal\Getui\Sdk\IGetui\Req\ActionChain_Type;
 use Cncal\Getui\Sdk\IGetui\Req\InnerFiled_Type;
 use Cncal\Getui\Sdk\IGetui\Req\AppStartUp;
 
-class IGtNotificationTemplate extends IGtBaseTemplate {
-
+class IGtNotificationTemplate extends IGtBaseTemplate
+{
 	var $text;
 	var $title;
 	var $logo;
@@ -117,52 +118,64 @@ class IGtNotificationTemplate extends IGtBaseTemplate {
 		return $actionChains;
 	}
 
-	function  get_transmissionContent() {
+	function  get_transmissionContent()
+    {
 		return $this->transmissionContent;
 	}
 	
-	function  get_pushType() {
+	function  get_pushType()
+    {
 		return 'NotifyMsg';
 	}
 
-	function  set_text($text) {
+	function  set_text($text)
+    {
 		$this->text = $text;
 	}
 
-	function  set_title($title) {
+	function  set_title($title)
+    {
 		$this->title = $title;
 	}
 
-	function  set_logo($logo) {
+	function  set_logo($logo)
+    {
 		$this->logo = $logo;
 	}
 
-	function  set_logoURL($logoURL) {
+	function  set_logoURL($logoURL)
+    {
 		$this->logoURL = $logoURL;
 	}
 	
-	function  set_transmissionType($transmissionType) {
+	function  set_transmissionType($transmissionType)
+    {
 		$this->transmissionType = $transmissionType;
 	}
 
-	function  set_isRing($isRing) {
+	function  set_isRing($isRing)
+    {
 		$this->isRing = $isRing;
 	}
 
-	function  set_isVibrate($isVibrate) {
+	function  set_isVibrate($isVibrate)
+    {
 		$this->isVibrate = $isVibrate;
 	}
 
-	function  set_isClearable($isClearable) {
+	function  set_isClearable($isClearable)
+    {
 		$this->isClearable = $isClearable;
 	}
 
-	function  set_transmissionContent($transmissionContent) {
+	function  set_transmissionContent($transmissionContent)
+    {
 		$this->transmissionContent = $transmissionContent;
 	}
 	
-	function  set_notifyStyle($notifyStyle) {
-		if($notifyStyle != 1){
+	function  set_notifyStyle($notifyStyle)
+    {
+		if ($notifyStyle != 1) {
 			$this->notifyStyle = 0;
 		} else {
 			$this->notifyStyle = 1;
