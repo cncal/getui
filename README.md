@@ -1,4 +1,4 @@
-# A getui sdk package for laravel
+# Getui sdk package for laravel
 
 ## 依赖
 * Laravel 5+. （如果使用队列，须 Laravel 5.5 以上）
