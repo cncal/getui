@@ -26,7 +26,7 @@
                 "Cncal\\Getui\\GetuiServiceProvider"
             ],
             "aliases": {
-                "Getui": "Cncal\\Getui\\Facade\\Getui"
+                "Getui": "Cncal\\Getui\\Facades\\Getui"
             }
         }
     }
