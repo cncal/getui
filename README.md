@@ -151,6 +151,7 @@ Getui::pushMessageToApp($data);
                 'is_content_available' => false, // 推送是否直接带有透传数据（默认否）, boolean
                 'badge' => '', // 应用icon上显示的数字，int
                 'sound' => '', // 通知铃声文件名，string
+                'category' => '', // 在客户端通知栏触发特定的action和button显示，string
                 'custom_msg' => [
                    'key1' => 'value1',
                    'key2' => 'value2',

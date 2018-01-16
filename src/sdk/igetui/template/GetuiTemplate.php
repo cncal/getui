@@ -230,6 +230,10 @@ class GetuiTemplate
                 $apn->sound = $sound;
             }
 
+            if (isset($category)) {
+                $apn->category = $category;
+            }
+
             if (isset($custom_msg) && count($custom_msg) > 0) {
                 foreach ($custom_msg as $key => $value) {
                     $apn->add_customMsg($key, $value);
