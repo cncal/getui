@@ -237,7 +237,7 @@ class Getui
 
         // 使用队列
         if ($this->queue_is_used) {
-            PushGetuiMessage::dispatch($this->igt, 'pushMessageToApp', $message)
+            PushGetuiMessage::dispatch($this->igt, 'pushMessageToApp', $message, NULL)
                             ->onConnection($this->queue_connection)
                             ->onQueue($this->queue_queue);
 
