@@ -107,6 +107,8 @@ class GetuiTemplate
         $template->set_transmissionContent($transmission_content);
         $template->set_title($title);
         $template->set_text($text);
+        $template->set_logo($logo);
+        $template->set_logoURL($logo_url);
         $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
         $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
         $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
@@ -135,6 +137,8 @@ class GetuiTemplate
         $template->set_title($title);
         $template->set_text($text);
         $template->set_url($url);
+        $template->set_logo($logo);
+        $template->set_logoURL($logo_url);
         $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
         $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
         $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);

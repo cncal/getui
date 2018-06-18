@@ -98,6 +98,8 @@ Getui::pushMessageToApp($data);
         'template_data' => [
             'title' => '', // 通知标题，string(40), 必填
             'text'  => '', // 通知内容，string(600), 必填
+            'logo'  => '', // 通知图标名称，string(40), 必填
+            'logo_url'  => '', // 通知图标url地址，string(100), 必填
             'transmission_type'    => 2, // 是否立即启动应用：1 立即启动 2 等待客户端自启动，必填
             'transmission_content' => '', // 透传内容，不支持转义字符，string(2048), 必填
         ]
@@ -113,6 +115,8 @@ Getui::pushMessageToApp($data);
                 'title' => '', // 通知标题，string(40), 必填
                 'text'  => '', // 通知内容，string(600), 必填
                 'url'   => '', // 点击通知后打开的网页地址，string(200), 必填
+                'logo'  => '', // 通知图标名称，string(40), 必填
+                'logo_url'  => '', // 通知图标url地址，string(100), 必填
             ]
             'cid' => 'target cid', // 推送通知至指定用户时填写
             'cid_list' => ['cid1','cid2',...], // 推送通知至指定用户列表时填写
@@ -191,6 +195,10 @@ Getui::pushMessageToApp($data);
     * [推送结果返回值](http://docs.getui.com/server/php/push/#7)
     
 * 版本更新说明：
+    * v0.1.2: 
+        * Enhancement：点击通知打开应用模板和点击通知打开网页模板支持设置通知图标名称和通知图标 url 地址
+    * v0.1.1: 
+        * Enhancement：IOS 透传消息模板中支持 category（在客户端通知栏触发特定的action和button显示）
     * v0.1.0: 
         * 新功能：支持队列
         * 针对 Laravel5.5LTS 新功能 Package Discovery 更新 `composer.json`

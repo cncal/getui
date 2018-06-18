@@ -47,7 +47,7 @@ class PushGetuiMessage implements ShouldQueue
      * @param $message
      * @param $extra_param
      */
-    public function __construct(IGtPush $igt, $function, $message, $extra_param)
+    public function __construct(IGtPush $igt, $function, $message, $extra_param = NULL)
     {
         $this->igt = $igt;
         $this->function = $function;
