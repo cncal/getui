@@ -1,5 +1,11 @@
 # Getui sdk package for laravel
 
+<p align="left">
+<a href="https://packagist.org/packages/cncal/getui"><img src="https://poser.pugx.org/cncal/getui/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/cncal/getui"><img src="https://poser.pugx.org/cncal/getui/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/cncal/getui"><img src="https://poser.pugx.org/cncal/getui/license.svg" alt="License"></a>
+</p>
+
 ## 依赖
 * Laravel 5+. （如果使用队列，须 Laravel 5.5 以上）
 * cUrl
