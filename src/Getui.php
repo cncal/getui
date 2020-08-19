@@ -226,8 +226,8 @@ class Getui
         $template = $getui_template->getTemplate();
 
         $cdt = new AppConditions();
-        $cdt->addCondition3(AppConditions::PHONE_TYPE, $phoneTypeList);
-        $cdt->addCondition3(AppConditions::REGION, $provinceList);
+        $cdt->addCondition3(AppConditions::PHONE_TYPE, $data['phone_type_list']);
+        $cdt->addCondition3(AppConditions::REGION, $data['province_list']);
         $cdt->addCondition3(AppConditions::TAG, $data['tag_list']);
 
         $message = new IGtAppMessage();
