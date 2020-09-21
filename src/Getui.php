@@ -2,9 +2,6 @@
 
 namespace Cncal\Getui;
 
-use App\Constant\CodeInformation;
-use App\Exceptions\BaseException;
-use App\Widgets\SeasLog;
 use Cncal\Getui\Sdk\IGtPush;
 use Cncal\Getui\Sdk\IGetui\IGtTarget;
 use Cncal\Getui\Jobs\PushGetuiMessage;
@@ -12,7 +9,6 @@ use Cncal\Getui\Sdk\IGetui\IGtAppMessage;
 use Cncal\Getui\Sdk\IGetui\IGtListMessage;
 use Cncal\Getui\Sdk\IGetui\IGtSingleMessage;
 use Cncal\Getui\Sdk\IGetui\Template\GetuiTemplate;
-use Illuminate\Database\QueryException;
 
 class Getui
 {
