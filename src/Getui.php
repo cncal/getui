@@ -2,6 +2,9 @@
 
 namespace Cncal\Getui;
 
+use App\Constant\CodeInformation;
+use App\Exceptions\BaseException;
+use App\Widgets\SeasLog;
 use Cncal\Getui\Sdk\IGtPush;
 use Cncal\Getui\Sdk\IGetui\IGtTarget;
 use Cncal\Getui\Jobs\PushGetuiMessage;
@@ -9,9 +12,11 @@ use Cncal\Getui\Sdk\IGetui\IGtAppMessage;
 use Cncal\Getui\Sdk\IGetui\IGtListMessage;
 use Cncal\Getui\Sdk\IGetui\IGtSingleMessage;
 use Cncal\Getui\Sdk\IGetui\Template\GetuiTemplate;
+use Illuminate\Database\QueryException;
 
 class Getui
 {
+    protected $app;
     /**
      * @var string
      */
@@ -67,11 +72,15 @@ class Getui
     /**
      * Getui constructor.
      */
-    public function __construct($devise = 'basic')
+    public function __construct($app = 'basic')
     {
         $config = config('getui');
-        $this->app_id = $config[$devise]['app_id'];
-        $this->igt = new IGtPush($config[$devise]['host'], $config[$devise]['app_key'], $config[$devise]['master_secret']);
+        if(empty($config[$app] ?? '')){
+            throw new \Exception('getui app not exists');
+        }
+        $this->app = $app;
+        $this->app_id = $config[$app]['app_id'];
+        $this->igt = new IGtPush($config[$app]['host'], $config[$app]['app_key'], $config[$app]['master_secret']);
         $this->is_offline = $config['push']['is_offline'];
         $this->offline_expire_time = $config['push']['offline_expire_time'];
         $this->network_type = $config['push']['network_type'];
@@ -105,7 +114,7 @@ class Getui
                         (int)$data['template_data']['network_type'] : $this->network_type;
 
         // todo: need to discuss
-        $getui_template = new GetuiTemplate($template_type, $template_data);
+        $getui_template = new GetuiTemplate($this->app, $template_type, $template_data);
         $template = $getui_template->getTemplate();
 
         $message = new IGtSingleMessage();
@@ -160,7 +169,7 @@ class Getui
         $network_type = isset($data['template_data']['network_type']) ?
                         (int)$data['template_data']['network_type'] : $this->network_type;
 
-        $getui_template = new GetuiTemplate($template_type, $template_data);
+        $getui_template = new GetuiTemplate($this->app, $template_type, $template_data);
         $template = $getui_template->getTemplate();
 
         $message = new IGtListMessage();
@@ -221,7 +230,7 @@ class Getui
                         (int)$data['template_data']['network_type'] : $this->network_type;
 
         // todo: need to discuss
-        $getui_template = new GetuiTemplate($template_type, $template_data);
+        $getui_template = new GetuiTemplate($this->app, $template_type, $template_data);
         $template = $getui_template->getTemplate();
 
         $message = new IGtAppMessage();

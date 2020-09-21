@@ -59,11 +59,11 @@ class GetuiTemplate
      * @param $type
      * @param $template_data
      */
-    public function __construct($type, $template_data)
+    public function __construct($app, $type, $template_data)
     {
         $config = config('getui');
-        $this->app_id = $config['basic']['app_id'];
-        $this->app_key = $config['basic']['app_key'];
+        $this->app_id = $config[$app]['app_id'];
+        $this->app_key = $config[$app]['app_key'];
         $this->is_ring = $config['push']['is_ring'];
         $this->is_vibrate = $config['push']['is_vibrate'];
         $this->is_clearable = $config['push']['is_clearable'];
@@ -183,9 +183,9 @@ class GetuiTemplate
         $template->set_isAutoInstall(isset($is_auto_install) ? (boolean)$is_auto_install : false);
         $template->set_isActived(isset($is_actived) ? (boolean)$is_actived : false);
 
-        $template->set_isRing(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
-        $template->set_isVibrate(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
-        $template->set_isClearable(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
+        $template->set_isBelled(isset($is_ring) ? (boolean)$is_ring : $this->is_ring);
+        $template->set_isVibrationed(isset($is_vibrate) ? (boolean)$is_vibrate : $this->is_vibrate);
+        $template->set_isCleared(isset($is_clearable) ? (boolean)$is_clearable : $this->is_clearable);
 
         if (isset($begin_at) && isset($end_at)) {
             $template->set_duration(

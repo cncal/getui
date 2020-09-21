@@ -153,6 +153,7 @@ Class IGtPush
         }
 
         $params = $this->getSingleMessagePostData($message, $target, $requestId);
+        print_r($params);
         return $this->httpPostJSON($this->host, $params);
     }
 
