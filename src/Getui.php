@@ -67,11 +67,11 @@ class Getui
     /**
      * Getui constructor.
      */
-    public function __construct()
+    public function __construct($devise = 'basic')
     {
         $config = config('getui');
-        $this->app_id = $config['basic']['app_id'];
-        $this->igt = new IGtPush($config['basic']['host'], $config['basic']['app_key'], $config['basic']['master_secret']);
+        $this->app_id = $config[$devise]['app_id'];
+        $this->igt = new IGtPush($config[$devise]['host'], $config[$devise]['app_key'], $config[$devise]['master_secret']);
         $this->is_offline = $config['push']['is_offline'];
         $this->offline_expire_time = $config['push']['offline_expire_time'];
         $this->network_type = $config['push']['network_type'];
